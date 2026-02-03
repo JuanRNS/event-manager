@@ -1,207 +1,72 @@
-# Party House System
+# 📅 Event Manager - Front-end
 
-Sistema de gerenciamento de festas e eventos desenvolvido em Angular 20 com TypeScript.
+Este projeto representa a interface de alta performance do sistema Event Manager, focado em uma experiência de usuário fluida e responsiva para gestão de eventos corporativos e sociais.
 
-## 🎯 Funcionalidades
+## ✨ Funcionalidades Principais
+- **Dashboard de Eventos:** Visualização clara de eventos ativos e encerrados.
+- **Formulários Inteligentes:** Criação de eventos com validações em tempo real utilizando Reactive Forms.
+- **Integração Assíncrona:** Comunicação otimizada com a API via RxJS para garantir estados consistentes.
+- **Design Responsivo:** Interface adaptável construída com Angular Material.
 
-### 1. Tela de Login e Cadastro
-- Autenticação com email e senha
-- Login social (Google e Apple)
-- Interface responsiva com sidebar informativo
+## 🛠️ Stack Técnica e Decisões
+- **Angular 17+:** Utilização de *Standalone Components* para uma arquitetura mais leve e modular.
+- **Angular Material:** Componentes de UI para uma experiência de usuário consistente.
+- **RxJS:** Gerenciamento de fluxos de dados e chamadas HTTP assíncronas.
 
-### 2. Cadastro de Festas no Sistema
-- Formulário para lançamento de trabalhos
-- Campos: Local da festa, Nome do cliente, Endereço, Material usado, Valor da festa
-- Lista de festas cadastradas
-- Funcionalidade para adicionar garçons às festas
-
-### 3. Cadastro de Componentes do Evento
-- **Cadastro de Garçons**: Nome, Telefone, Chave PIX, Status
-- **Cadastro de Materiais**: Descrição do material
-- Lista de garçons cadastrados com opção de edição
-- Lista de materiais disponíveis
-
-### 4. Dashboard das Informações
-- Cards informativos de cada garçom
-- Métricas: festas na semana e total a receber
-- Resumo geral: Total de garçons, Total de festas, Total pago
-- Botão para gerar relatórios
-
-## 🎨 Design System
-
-### Cores
-- **Primária**: #4ECDC4 (Verde/Turquesa) - Botões de ação
-- **Secundária**: #2C3E50 (Cinza escuro) - Menu lateral
-- **Fundo**: #F8F9FA (Cinza claro)
-- **Texto**: #2C3E50 (Cinza escuro)
-- **Branco**: #FFFFFF
-
-### Tipografia
-- Fonte: Inter (Google Fonts)
-- Pesos: 300, 400, 500, 600, 700
-
-## 🚀 Como executar o projeto
+## 🚀 Como rodar o projeto
 
 ### Pré-requisitos
-- Node.js 18+ 
-- Angular CLI 20+
+- Node.js (LTS)
+- Angular CLI `^17.0.0`
 
 ### Instalação
-```bash
-# Clone o repositório
-git clone <url-do-repositorio>
+1. Clone o repositório e acesse a pasta:
+   ```bash
+   cd event-manager-front-end
+   ```
 
-# Entre no diretório
-cd party-house-system
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
 
-# Instale as dependências
-npm install
+3. Execute o servidor de desenvolvimento:
+   ```bash
+   ng serve
+   ```
+4. Acesse `http://localhost:4200` no seu navegador.
 
-# Execute o projeto
-ng serve
-```
+## 📂 Estrutura do Projeto
 
-### Acesso
-- Aplicação: http://localhost:4200
-- Login: Qualquer email e senha válidos
+O projeto segue uma arquitetura modular dividida principalmente em **Core** e **Features**, facilitando a escalabilidade e manutenção.
 
-## 📱 Responsividade
+### `src/app/core`
+Contém funcionalidades essenciais e reutilizáveis em toda a aplicação.
+- **Components:** Componentes de UI compartilhados (e.g., Sidebar, Modais, Dashboard Widgets).
+- **Services:** Serviços globais para comunicação com API e gerenciamento de estado.
+- **Guards/Interceptors:** Proteção de rotas e manipulação de requisições HTTP.
+- **Interfaces/Enums:** Definições de tipos e contratos de dados.
 
-O sistema foi desenvolvido com design responsivo, adaptando-se a:
-- Desktop (1200px+)
-- Tablet (768px - 1199px)
-- Mobile (até 767px)
+### `src/app/features`
+Contém as visualizações (páginas) e lógica específica de cada funcionalidade de negócio.
+- **Views:** Páginas principais da aplicação (e.g., Login, Calendário, Listas de Eventos).
+- **Services:** Serviços específicos de cada feature (quando necessário).
 
-## 🏗️ Arquitetura
+## 🧩 Componentes Principais
 
-### Estrutura de Componentes
-```
-src/app/components/
-├── login/                 # Tela de login e cadastro
-├── party-registration/    # Cadastro de festas
-├── event-components/      # Cadastro de garçons e materiais
-├── dashboard/            # Dashboard principal
-└── sidebar/              # Menu lateral compartilhado
-```
+### Core Components (`src/app/core/components`)
+Componentes visuais que compõem a estrutura base da interface.
+- **Sidebar:** Navegação lateral responsiva.
+- **Dashboard:** Widgets e elementos visuais da tela inicial.
+- **Modais:** Janelas de diálogo reutilizáveis para ações e alertas.
+- **Form Group:** Componentes de formulário encapsulados para reuso e validação.
+- **Summary:** Componentes para exibição de resumos e métricas.
 
-### Tecnologias Utilizadas
-- **Angular 20**: Framework principal
-- **TypeScript**: Linguagem de programação
-- **SCSS**: Pré-processador CSS
-- **Angular Router**: Navegação entre páginas
-- **Angular Forms**: Formulários reativos
-- **Angular Material**: Componentes UI (opcional)
-
-## 🔧 Funcionalidades Técnicas
-
-### Roteamento
-- Rota padrão: `/login`
-- Rotas protegidas (simulação)
-- Navegação por menu lateral
-
-### Formulários
-- Validação de campos obrigatórios
-- Feedback visual para o usuário
-- Reset automático após submissão
-
-### Estado da Aplicação
-- Dados mockados para demonstração
-- Estrutura preparada para integração com backend
-- Interfaces TypeScript para tipagem
-
-## 🧪 Testes
-
-### Executar testes
-```bash
-# Testes unitários
-ng test
-
-# Testes e2e
-ng e2e
-```
-
-## 📦 Build para Produção
-
-```bash
-# Build otimizado
-ng build --prod
-
-# Os arquivos serão gerados em dist/party-house-system/
-```
-
-## 🔒 Segurança
-
-### Implementações de Segurança
-- Sanitização de inputs
-- Validação client-side
-- Estrutura preparada para autenticação JWT
-- Headers de segurança configurados
-
-### Próximos Passos de Segurança
-- Implementar autenticação real
-- Adicionar autorização por roles
-- Configurar HTTPS
-- Implementar rate limiting
-
-## ♿ Acessibilidade
-
-### Recursos Implementados
-- Estrutura semântica HTML5
-- Labels apropriados em formulários
-- Contraste adequado de cores
-- Navegação por teclado
-- Textos alternativos
-
-### Conformidade WCAG 2.1
-- Nível AA de acessibilidade
-- Testado com leitores de tela
-- Suporte a navegação por teclado
-
-## 📊 Performance
-
-### Otimizações
-- Lazy loading de componentes
-- OnPush change detection strategy
-- Minificação de assets
-- Tree shaking automático
-- Compressão gzip
-
-## 🤝 Contribuição
-
-### Padrões de Código
-- ESLint configurado
-- Prettier para formatação
-- Conventional Commits
-- Testes obrigatórios para novas features
-
-### Workflow de Desenvolvimento
-1. Fork do projeto
-2. Criar branch feature
-3. Implementar mudanças
-4. Executar testes
-5. Criar Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-## 👥 Equipe de Desenvolvimento
-
-- **Tech Leader**: Coordenação e arquitetura
-- **Frontend Developer**: Implementação Angular/TypeScript
-- **UX/UI Designer**: Design e experiência do usuário
-- **QA Engineer**: Testes e qualidade
-- **Security Specialist**: Segurança e vulnerabilidades
-- **Accessibility Expert**: Conformidade WCAG
-
-## 📞 Suporte
-
-Para dúvidas ou suporte, entre em contato:
-- Email: suporte@partyhouse.com
-- Documentação: [Link da documentação]
-- Issues: [Link do GitHub Issues]
-
----
-
-**Desenvolvido com ❤️ pela equipe Party House**
-
+### Feature Views (`src/app/features/views`)
+As principais telas acessíveis pelo usuário.
+- **Login / Register:** Fluxo de autenticação e cadastro de usuários.
+- **Calendar:** Visualização de eventos em formato de calendário.
+- **Dashboard Date/Week:** Visualizações temporais do dashboard.
+- **Event Components:** Componentes específicos para exibição de detalhes de eventos.
+- **Party Registration:** Formulários para criação e edição de eventos ("parties").
+- **Party All List:** Listagem completa de eventos registrados.
