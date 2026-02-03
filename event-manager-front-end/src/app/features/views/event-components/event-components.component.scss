@@ -1,17 +1,5 @@
-.page-layout {
-  display: flex;
-  min-height: 100vh;
-}
-
 .main-content {
-  flex: 1;
-  margin-left: 250px;
-  padding: 30px;
-  background-color: var(--background-color);
-}
-
-.page-header {
-  margin-bottom: 30px;
+  padding: 32px;
 }
 
 .page-title {
@@ -22,7 +10,6 @@
 }
 
 .content-wrapper {
-  background-color: var(--white);
   border-radius: 8px;
   padding: 30px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -99,9 +86,9 @@
   font-size: 14px;
 }
 
-.button-type{
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+.button-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -179,13 +166,14 @@
 }
 
 
-.table{
+.table {
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: var(--background-color);
 
-  .table-header, .table-row{
+  .table-header,
+  .table-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -193,20 +181,22 @@
     padding: 16px 32px;
     background-color: var(--primary-color);
     color: var(--white);
-    
-    .title, .title-buttons{
+
+    .title,
+    .title-buttons {
       font-size: 16px;
       text-align: center;
       flex: 1;
     }
 
-    .title-buttons{
+    .title-buttons {
       display: flex;
       justify-content: center;
       gap: 12px;
     }
   }
-  .table-row{
+
+  .table-row {
     background-color: var(--background-color);
     color: var(--text-color);
   }
@@ -219,9 +209,9 @@
   gap: 12px;
 
   .btn-sm {
-  max-width: 25vw;
+    max-width: 25vw;
   }
- }
+}
 
 
 /* Responsividade */
@@ -230,32 +220,31 @@
     margin-left: 0;
     padding: 20px;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .waiter-item {
     flex-direction: column;
     gap: 16px;
   }
-  
+
   .waiter-actions {
     margin-left: 0;
     width: 100%;
   }
-  
+
   .btn {
     width: 100%;
   }
-  
+
   .content-wrapper {
     padding: 20px;
   }
-  
+
   .material-input {
     max-width: 100%;
   }
 }
-

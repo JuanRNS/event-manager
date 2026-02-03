@@ -1,31 +1,20 @@
-<div class="page-layout">
+<div class="main-content">
+  <div class="page-header">
+    <h1 class="page-title">Painel de Relatórios por Data</h1>
 
-  <div class="main-content">
-    <div class="page-header">
-      <h1 class="page-title">Painel de Relatórios por Data</h1>
-
-      <button class="btn btn-primary" [class.disabled]="true">
-          <mat-icon fontIcon="description"></mat-icon>
-          Gerar Relatório
-        </button>
-    </div>
-    <app-form
-    [form]="form"
-    [group]="formGroupItens"
-    ></app-form>
-    <div class="search-bar">
-        <button matButton class="btn btn-primary" (click)="getDashBoardFromTo()"> 
-          <mat-icon fontIcon="search"></mat-icon>
-          Buscar
-        </button>
-    </div>
-    
-    <app-dashboard
-    [listDashboard]="listDashboard"
-    [totalElements]="totalElements"
-    [pageSize]="pageSize"
-    (pageChange)="onPageChange($event)"
-    (download)="downloadReport($event.id, $event.name)"
-    ></app-dashboard>
+    <button class="btn btn-primary" [class.disabled]="true">
+      <mat-icon fontIcon="description"></mat-icon>
+      Gerar Relatório
+    </button>
   </div>
+  <app-form [form]="form" [group]="formGroupItens"></app-form>
+  <div class="search-bar">
+    <button matButton class="btn btn-primary" (click)="getDashBoardFromTo()">
+      <mat-icon fontIcon="search"></mat-icon>
+      Buscar
+    </button>
+  </div>
+
+  <app-dashboard [listDashboard]="listDashboard" [totalElements]="totalElements" [pageSize]="pageSize"
+    (pageChange)="onPageChange($event)" (download)="downloadReport($event.id, $event.name)"></app-dashboard>
 </div>

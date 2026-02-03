@@ -1,3 +1,7 @@
+.main-content {
+  padding: 32px;
+}
+
 .calendar-container {
   padding: 20px;
   overflow-x: auto;
@@ -12,7 +16,7 @@
   margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 15px;
-  
+
   h3 {
     margin: 0;
     text-transform: capitalize;
@@ -27,7 +31,7 @@
   }
 }
 
-.page-header{
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,7 +43,7 @@
     margin: 0;
   }
 
-  button{
+  button {
     max-width: 20vw;
   }
 }
@@ -56,7 +60,7 @@
     background-color: #f8f9fa;
     border-radius: 4px;
     white-space: nowrap;
-    
+
     &.active {
       background-color: #007bff;
       color: white;
@@ -69,13 +73,14 @@
   }
 }
 
-.disabled{
+.disabled {
   pointer-events: none;
   opacity: 0.6;
 }
 
 // Ajustes para o calendário não quebrar
 ::ng-deep {
+
   .cal-month-view,
   .cal-week-view,
   .cal-day-view {

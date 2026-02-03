@@ -1,63 +1,59 @@
-<mat-toolbar color="primary" class="mobile-toolbar">
-  <button mat-icon-button (click)="toggleSidebar()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>
-    Gerenciador de Recepções
-  </span>
-</mat-toolbar>
+<mat-drawer-container class="drawer-container" autosize>
+  <mat-drawer #drawer class="sidebar" [mode]="'over'" [opened]="isSidebarOpen" (closedStart)="isSidebarOpen = false">
 
-<div class="sidebar" [class.sidebar-open]="isSidebarOpen">
     <div class="sidebar-header">
+      @if (isSidebarOpen) {
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
       <h2 class="sidebar-title">
         Gerenciador de Recepções
       </h2>
     </div>
 
-  <nav class="sidebar-nav">
-    <ul>
-      <li>
-        <a routerLink="/dashboard" routerLinkActive="active">
-          <mat-icon class="icon" fontIcon="dashboard"></mat-icon>
-          Relatórios
-        </a>
-      </li>
-      <li>
-        <a routerLink="/dashboard-date" routerLinkActive="active">
-          <mat-icon class="icon" fontIcon="calendar_today"></mat-icon>
-          Relatórios Por Data
-        </a>
-      </li>
-      <li>
-        <a routerLink="/event-components" routerLinkActive="active">
-          <mat-icon class="icon" fontIcon="group"></mat-icon>
-          Cadastro Equipe e Materiais
-        </a>
-      </li>
-      <li>
-        <a routerLink="/party-registration" routerLinkActive="active">
-          <mat-icon class="icon" fontIcon="add_ad"></mat-icon>
-          Adicionar Festa
-        </a>
-      </li>
-      <li>
-        <a routerLink="/party-list" routerLinkActive="active">
-          <mat-icon class="icon" fontIcon="work"></mat-icon>
-          Festas
-        </a>
-      </li>
-      <li>
-        <a routerLink="/calendar" routerLinkActive="active">
-          <mat-icon class="icon" fontIcon="event"></mat-icon>
-          Calendário
-        </a>
-      </li>
-      <li>
-        <a class="nav-link" (click)="logout()">
-          <mat-icon class="icon" fontIcon="exit_to_app"></mat-icon>
-          Sair
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon matListItemIcon fontIcon="dashboard"></mat-icon>
+        <span matListItemTitle>Relatórios</span>
+      </a>
+      <a mat-list-item routerLink="/dashboard-date" routerLinkActive="active">
+        <mat-icon matListItemIcon fontIcon="calendar_today"></mat-icon>
+        <span matListItemTitle>Relatórios Por Data</span>
+      </a>
+      <a mat-list-item routerLink="/event-components" routerLinkActive="active">
+        <mat-icon matListItemIcon fontIcon="group"></mat-icon>
+        <span matListItemTitle>Cadastro Equipe e Materiais</span>
+      </a>
+      <a mat-list-item routerLink="/party-registration" routerLinkActive="active">
+        <mat-icon matListItemIcon fontIcon="add_ad"></mat-icon>
+        <span matListItemTitle>Adicionar Festa</span>
+      </a>
+      <a mat-list-item routerLink="/party-list" routerLinkActive="active">
+        <mat-icon matListItemIcon fontIcon="work"></mat-icon>
+        <span matListItemTitle>Festas</span>
+      </a>
+      <a mat-list-item routerLink="/calendar" routerLinkActive="active">
+        <mat-icon matListItemIcon fontIcon="event"></mat-icon>
+        <span matListItemTitle>Calendário</span>
+      </a>
+      <a mat-list-item (click)="logout()">
+        <mat-icon matListItemIcon fontIcon="exit_to_app"></mat-icon>
+        <span matListItemTitle>Sair</span>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <mat-toolbar color="primary" class="main-toolbar">
+      @if (!isSidebarOpen) {
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Gerenciador de Recepções</span>
+      }
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-drawer-content>
+
+</mat-drawer-container>

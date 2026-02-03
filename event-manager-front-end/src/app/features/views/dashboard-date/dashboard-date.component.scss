@@ -1,83 +1,8 @@
-.page-layout {
-  display: flex;
-  min-height: 100vh;
-}
-
-.dashboard-sidebar {
-  background-color: var(--secondary-color);
-  color: var(--white);
-  min-height: 100vh;
-  width: 250px;
-  padding: 0;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1000;
-}
-
-.sidebar-header {
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.waiter-actions{
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-
-}
-.sidebar-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--white);
-}
-
-.sidebar-nav {
-  padding: 20px 0;
-}
-
-.sidebar-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-nav li {
-  margin-bottom: 5px;
-}
-
-.sidebar-nav a {
-  color: var(--white);
-  text-decoration: none;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  transition: all 0.3s ease;
-  font-weight: 400;
-  font-size: 14px;
-}
-
-.sidebar-nav a:hover,
-.sidebar-nav a.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-right: 3px solid var(--primary-color);
-}
-
-.sidebar-nav .icon {
-  margin-right: 12px;
-  font-size: 16px;
-  width: 20px;
-  text-align: center;
-}
-
 .main-content {
-  flex: 1;
-  margin-left: 250px;
   padding: 32px;
-  background-color: var(--background-color);
 }
 
-.disabled{
+.disabled {
   pointer-events: none;
   opacity: 0.6;
 }
@@ -125,7 +50,7 @@
     padding: 20px;
     width: 100%;
   }
-  
+
   .dashboard-sidebar {
     width: 100%;
     position: relative;
@@ -134,44 +59,44 @@
     left: 0;
     z-index: 1000;
   }
-  
+
   .sidebar-nav {
     display: flex;
     overflow-x: auto;
     padding: 10px;
     justify-content: space-around;
   }
-  
+
   .sidebar-nav ul {
     display: flex;
     white-space: nowrap;
   }
-  
+
   .sidebar-nav li {
     margin-right: 10px;
     margin-bottom: 0;
   }
-  
+
   .sidebar-nav a {
     padding: 8px 16px;
     border-radius: 6px;
     white-space: nowrap;
   }
-  
+
   .page-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
   }
-  
+
   .waiters-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .summary-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .btn {
     width: 100%;
   }
@@ -240,9 +165,8 @@
   align-items: center;
 }
 
-.search-bar{
+.search-bar {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
-
