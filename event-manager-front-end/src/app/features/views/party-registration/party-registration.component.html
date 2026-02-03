@@ -1,16 +1,9 @@
-<div class="page-layout">
-  
-  <div class="main-content">
-    <div class="page-header">
-      <h1 class="page-title">Cadastro de Festas</h1>
-    </div>
-    
-    <div class="content-wrapper">
-      <app-form
-      [group]="formGroupItens"
-      [form]="form"
-      ></app-form>
-      <button type="submit" class="btn btn-primary" (click)="createParty()">Cadastrar Festa</button>
-    </div>
+<div class="main-content">
+  <div class="page-header">
+    <h1 class="page-title">Cadastro de Festas</h1>
   </div>
 
+  <div class="content-wrapper">
+    <app-form [group]="formGroupItens" [form]="form"></app-form>
+    <button type="submit" class="btn btn-primary" (click)="createParty()">Cadastrar Festa</button>
+  </div>

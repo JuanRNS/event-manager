@@ -4,7 +4,6 @@ package com.example.eventmanagerbackend.infrastructure.services;
 import com.example.eventmanagerbackend.domain.dtos.GoogleTokenDTO;
 import com.example.eventmanagerbackend.domain.entities.User;
 import com.example.eventmanagerbackend.infrastructure.repositories.UserRepository;
-import com.example.eventmanagerbackend.infrastructure.security.AuthenticationService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -30,7 +29,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public String authenticateOrRegisterGoogleUser(GoogleTokenDTO tokenDTO) throws GeneralSecurityException, IOException {
+    public String authenticateOrRegisterGoogleUser(GoogleTokenDTO tokenDTO)
+            throws GeneralSecurityException, IOException {
         GoogleIdToken idToken = verifyGoogleToken(tokenDTO.token());
 
         if (idToken == null) {
@@ -68,7 +68,6 @@ public class AuthService {
 
         newUser.setEmail(email);
         newUser.setUserName(userName);
-
 
         return userRepository.save(newUser);
     }
