@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
     MatMenuModule,
     MatIconModule,
     MatButtonModule
-],
+  ],
   templateUrl: './party-registration.component.html',
   styleUrl: './party-registration.component.scss',
 })
@@ -39,6 +39,8 @@ export class PartyRegistrationComponent implements OnInit {
       Validators.required,
       Validators.min(1),
     ]),
+    hourStart: new FormControl<string | null>(null, [Validators.required]),
+    hourEnd: new FormControl<string | null>(null, [Validators.required]),
   });
 
   public listParty: IResponseParty[] = [];
@@ -51,7 +53,7 @@ export class PartyRegistrationComponent implements OnInit {
     private readonly _dialog: MatDialog,
     private readonly _toast: ToastService,
     private readonly _route: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getListParty();
@@ -102,6 +104,22 @@ export class PartyRegistrationComponent implements OnInit {
         type: 'text',
         size: '6',
       },
+      {
+        component: FormFieldEnum.INPUT,
+        label: 'Horário de início',
+        controlName: 'hourStart',
+        type: 'time',
+        placeholder: 'Horário de início',
+        size: '6',
+      },
+      {
+        component: FormFieldEnum.INPUT,
+        label: 'Horário de término',
+        controlName: 'hourEnd',
+        type: 'time',
+        placeholder: 'Horário de término',
+        size: '6',
+      }
     ];
   }
 
@@ -121,6 +139,7 @@ export class PartyRegistrationComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
+
     const data: IRequestParty = {
       location: this.form.controls.location.value as string,
       nameClient: this.form.controls.nameClient.value as string,
@@ -129,6 +148,8 @@ export class PartyRegistrationComponent implements OnInit {
         .substring(0, 19),
       idMaterial: Number(this.form.controls.idMaterial.value),
       numberOfPeople: Number(this.form.controls.numberOfPeople.value),
+      hourStart: this.form.controls.hourStart.value!,
+      hourEnd: this.form.controls.hourEnd.value!,
     };
 
     this._service.postRegisterParty(data).subscribe(({

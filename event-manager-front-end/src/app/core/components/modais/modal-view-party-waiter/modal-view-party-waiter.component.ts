@@ -5,14 +5,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { IResponseModalViewPartyWaiter } from '../../../interface/modal-view-party-waiter.interface';
 import { ApiService } from '../../../../features/services/api.service';
 import { ParseDateUtil } from '../../../utils/parse-date.util';
-
+import { DataCardComponent } from '../../data-card/data-card.component';
 @Component({
   selector: 'app-modal-view-party-waiter',
   standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    DataCardComponent
   ],
   templateUrl: './modal-view-party-waiter.component.html',
   styleUrl: './modal-view-party-waiter.component.scss'
@@ -44,5 +45,15 @@ export class ModalViewPartyWaiterComponent implements OnInit {
         console.error('Erro ao buscar festas do garçom:', err);
       }
     });
+  }
+
+  public getPartyCardItems(party: any) {
+    return [
+      { label: 'Local', value: party.location },
+      { label: 'Data', value: party.date },
+      { label: 'Pessoas', value: party.numberOfPeople },
+      { label: 'Valor/Dia', value: party.valuePerDay },
+      { label: 'Status', value: party.status }
+    ];
   }
 }

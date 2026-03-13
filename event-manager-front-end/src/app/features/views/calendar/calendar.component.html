@@ -30,12 +30,11 @@
           [class.active]="view === CalendarView.Month">
           Mês
         </button>
-        <button class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week"
-          [class.disabled]="true">
+        <button class="btn btn-primary" (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week">
           Semana
         </button>
-        <button class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day"
-          [class.disabled]="true">
+        <button class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
           Dia
         </button>
       </div>

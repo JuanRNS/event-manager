@@ -18,6 +18,7 @@ import { SelectComponent } from '../select/select.component';
 export class FormComponent {
   public form = input.required<FormGroup>();
   public group = input.required<FormGroupArray>();
+  public responsive = input<boolean>(true);
 
   constructor() { }
 

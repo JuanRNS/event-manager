@@ -48,7 +48,7 @@ import { Router } from "@angular/router";
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
-export class CalendarComponent implements OnInit{
+export class CalendarComponent implements OnInit {
   public view: CalendarView = CalendarView.Month;
   public viewDate: Date = new Date();
   public events: CalendarEvent[] = [];
@@ -57,7 +57,7 @@ export class CalendarComponent implements OnInit{
   constructor(
     private readonly _service: ApiService,
     private readonly _route: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getEvents();
@@ -87,6 +87,7 @@ export class CalendarComponent implements OnInit{
         this.events = events.map((event) => ({
           start: new Date(event.date),
           title: event.location + ' - ' + event.nameClient,
+          end: new Date(event.hourEnd),
         }));
       },
       error: (err) => {
@@ -95,7 +96,7 @@ export class CalendarComponent implements OnInit{
     });
   }
 
-  public back(){
+  public back() {
     this._route.navigate(['/dashboard']);
   }
 }

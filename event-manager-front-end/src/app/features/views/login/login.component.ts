@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,17 +18,20 @@ import { MaskEnum } from '../../../core/enums/maskEnum';
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     MatIconModule,
     FormComponent,
     MatButtonModule,
     RouterLink,
     HomePageSideComponent
-],
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
+
+  public isGoogleButtonLoaded = false;
 
   public formGroup = new FormGroup({
     userName: new FormControl<string | null>(null, [Validators.required]),
@@ -39,17 +43,19 @@ export class LoginComponent implements OnInit{
     private readonly userService: UserService,
     private readonly _toast: ToastService,
     private readonly _authGoogle: AuthGoogle
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this._authGoogle.initializeGoogleSignIn('google-signin-button');
+    this._authGoogle.initializeGoogleSignIn('google-signin-button')
+      .then(() => this.isGoogleButtonLoaded = true)
+      .catch(() => this.isGoogleButtonLoaded = true);
   }
 
-  public login(){
-    if(localStorage.getItem('token')){
+  public login() {
+    if (localStorage.getItem('token')) {
       localStorage.removeItem('token');
     }
-    if(this.formGroup.invalid){
+    if (this.formGroup.invalid) {
       this.formGroup.markAllAsDirty();
       this.formGroup.updateValueAndValidity();
       this.formGroup.markAllAsTouched();
@@ -61,9 +67,9 @@ export class LoginComponent implements OnInit{
     }
 
     this.userService.userLogin(form).subscribe({
-      next:(value) => {
-          localStorage.setItem('token', value);
-          this.router.navigate(['dashboard']);
+      next: (value) => {
+        localStorage.setItem('token', value);
+        this.router.navigate(['dashboard']);
       },
       error: (err) => {
         const error = JSON.parse(err.error);
@@ -72,7 +78,7 @@ export class LoginComponent implements OnInit{
     })
   }
 
-  public get formGroupItens(): FormGroupArray{
+  public get formGroupItens(): FormGroupArray {
     return [
       {
         component: FormFieldEnum.INPUT,

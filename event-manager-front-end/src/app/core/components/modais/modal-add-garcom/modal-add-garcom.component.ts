@@ -10,6 +10,7 @@ import { FormGroupArray } from '../../../interface/form.interface';
 import { FormFieldEnum } from '../../../enums/formFieldEnum';
 import { FormComponent } from "../../form-group/form/form.component";
 import { ToastService } from '../../../services/toast.service';
+import { DataCardComponent } from '../../data-card/data-card.component';
 
 @Component({
   selector: 'app-modal-add-garcom',
@@ -19,8 +20,9 @@ import { ToastService } from '../../../services/toast.service';
     MatButtonModule,
     MatPaginatorModule,
     MatIconModule,
-    FormComponent
-],
+    FormComponent,
+    DataCardComponent
+  ],
   templateUrl: './modal-add-garcom.component.html',
   styleUrl: './modal-add-garcom.component.scss'
 })
@@ -35,41 +37,41 @@ export class ModalAddGarcomComponent implements OnInit {
   public page = 0;
   public totalElements = 0;
   public pageSize = 4;
-  
+
   constructor(
     private readonly _service: ApiService,
     private readonly _toast: ToastService,
     private readonly _dialogRef: MatDialogRef<ModalAddGarcomComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getEmployeeIdsByFestaId();
     this.getListEmployee();
 
-      this.form.controls.search.valueChanges.subscribe(value => {
-        if (!value) {
-          this.listGarcom = [...this.listGarcomOriginal];
-          return;
-        }
-        this.listGarcom= this.listGarcom.filter(garcom => garcom.name.toLowerCase().includes(value.toLowerCase()));
-      })
+    this.form.controls.search.valueChanges.subscribe(value => {
+      if (!value) {
+        this.listGarcom = [...this.listGarcomOriginal];
+        return;
+      }
+      this.listGarcom = this.listGarcom.filter(garcom => garcom.name.toLowerCase().includes(value.toLowerCase()));
+    })
   }
 
-  public get formGroupItens(): FormGroupArray{
+  public get formGroupItens(): FormGroupArray {
     return [
       {
         component: FormFieldEnum.INPUT,
-        label: 'Buscar Garçom',
+        label: 'Buscar Funcionário',
         controlName: 'search',
         type: 'text',
-        placeholder: 'Digite o nome do garçom',
-        size: '6',
+        placeholder: 'Digite o nome do funcionário',
+        size: '12',
       }
     ]
-  } 
+  }
 
-  public getListEmployee(){
+  public getListEmployee() {
     this._service.getListAddEmployee(this.page, this.pageSize).subscribe({
       next: (res) => {
         this.listGarcom = res.content;
@@ -81,7 +83,7 @@ export class ModalAddGarcomComponent implements OnInit {
       }
     });
   }
-  public getEmployeeIdsByFestaId(){
+  public getEmployeeIdsByFestaId() {
     this._service.getEmployeeIdsByFestaId(this.data.id).subscribe({
       next: (res) => {
         this.listGarcomAdd = res;
@@ -92,25 +94,25 @@ export class ModalAddGarcomComponent implements OnInit {
     });
   }
 
-  public addGarcom(id: number){
-      this.isSubmit = true;
-      this.listGarcomAdd.push(id);
+  public addGarcom(id: number) {
+    this.isSubmit = true;
+    this.listGarcomAdd.push(id);
   }
 
-  public removeGarcom(id: number){
-      this.isSubmit = true;
-      const index = this.listGarcomAdd.indexOf(id);
-      this.listGarcomAdd.splice(index, 1);
+  public removeGarcom(id: number) {
+    this.isSubmit = true;
+    const index = this.listGarcomAdd.indexOf(id);
+    this.listGarcomAdd.splice(index, 1);
   }
 
-  public onPageChange(event: PageEvent){
+  public onPageChange(event: PageEvent) {
     this.page = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getListEmployee();
   }
 
-  public submit(){
-    if(!this.isSubmit){
+  public submit() {
+    if (!this.isSubmit) {
       this._dialogRef.close();
       return;
     }
@@ -127,4 +129,9 @@ export class ModalAddGarcomComponent implements OnInit {
     });
   }
 
+  public getGarcomCardItems(item: any) {
+    return [
+      { label: 'Contato', value: item.phone }
+    ];
+  }
 }

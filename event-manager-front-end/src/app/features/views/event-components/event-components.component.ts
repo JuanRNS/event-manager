@@ -34,6 +34,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
 import { ModalDeleteConfirmationComponent } from '../../../core/components/modais/modal-delete-confirmation/modal-delete-confirmation.component';
 import { ModalPixTelConfirmationComponent } from '../../../core/components/modais/modal-pix-tel-confirmation/modal-pix-tel-confirmation.component';
+import { DataCardComponent } from '../../../core/components/data-card/data-card.component';
 
 @Component({
   selector: 'app-event-components',
@@ -44,8 +45,9 @@ import { ModalPixTelConfirmationComponent } from '../../../core/components/modai
     FormComponent,
     MatPaginatorModule,
     MatMenuModule,
-    MatIconModule
-],
+    MatIconModule,
+    DataCardComponent
+  ],
   templateUrl: './event-components.component.html',
   styleUrl: './event-components.component.scss',
 })
@@ -97,11 +99,11 @@ export class EventComponentsComponent implements OnInit {
         }).afterClosed().subscribe((confirmed: boolean) => {
           if (confirmed) {
             this.formPrimary.controls.pixKey.setValue(value);
-          } else{
+          } else {
             const pix = this.formGroupItensPrimary.findIndex((item => item.controlName === 'pixKey'));
             this.formGroupItensPrimary[pix].hidden = false;
             this.formPrimary.controls.pixKey.setValue(null);
-          } 
+          }
         });
       }
     });
@@ -236,10 +238,25 @@ export class EventComponentsComponent implements OnInit {
     });
   }
 
+  public getEmployeeCardItems(item: IResponseEmployee) {
+    return [
+      { label: 'Pix', value: item.pixKey },
+      { label: 'Telefone', value: item.phone },
+      { label: 'Status', value: item.statusEmployee },
+      { label: 'Tipo', value: item.employeeType.type }
+    ];
+  }
+
+  public getMaterialCardItems(item: IResponseMaterial) {
+    return [
+      { label: 'Tipo', value: item.description }
+    ];
+  }
+
   public editEmployee(id: number) {
     const dialogRef = this._dialog.open(ModalUpdateGarcomComponent, {
-      width: '600px',
-      height: '600px',
+      width: '90vw',
+      maxWidth: '600px',
       data: {
         id: id,
       },
@@ -253,10 +270,8 @@ export class EventComponentsComponent implements OnInit {
 
   public viewFestas(id: number) {
     const dialogRef = this._dialog.open(ModalViewPartyWaiterComponent, {
-      width: '60vw',
-      height: '70vh',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
+      width: '90vw',
+      maxWidth: '800px',
       autoFocus: false,
       data: {
         id: id,

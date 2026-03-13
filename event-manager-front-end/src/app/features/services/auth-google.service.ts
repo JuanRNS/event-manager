@@ -17,16 +17,16 @@ declare global {
 })
 export class AuthGoogle {
   constructor(
-    private readonly _http: HttpClient, 
-    private readonly _router: Router, 
+    private readonly _http: HttpClient,
+    private readonly _router: Router,
     private readonly _zone: NgZone,
     private readonly _toast: ToastService
   ) {
     window.handleCredentialResponse = this.handleCredentialResponse.bind(this);
   }
 
-  public initializeGoogleSignIn(containerId: string) {
-    if (typeof google !== 'undefined') {
+  public async initializeGoogleSignIn(containerId: string): Promise<void> {
+    return this.waitForGoogleScript().then(() => {
       google.accounts.id.initialize({
         client_id: environment.googleClientId,
         callback: this.handleCredentialResponse.bind(this)
@@ -36,7 +36,32 @@ export class AuthGoogle {
         document.getElementById(containerId),
         { theme: "outline", size: "large" }
       );
-    }
+    });
+  }
+
+  private waitForGoogleScript(): Promise<void> {
+    const MAX_WAIT_MS = 5000;
+    const INTERVAL_MS = 100;
+
+    return new Promise((resolve, reject) => {
+      if (typeof google !== 'undefined') {
+        resolve();
+        return;
+      }
+
+      let elapsed = 0;
+      const interval = setInterval(() => {
+        elapsed += INTERVAL_MS;
+
+        if (typeof google !== 'undefined') {
+          clearInterval(interval);
+          resolve();
+        } else if (elapsed >= MAX_WAIT_MS) {
+          clearInterval(interval);
+          reject(new Error('Timeout ao carregar o script do Google Sign-In'));
+        }
+      }, INTERVAL_MS);
+    });
   }
 
   private handleCredentialResponse(response: any) {
