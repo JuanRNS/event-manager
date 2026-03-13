@@ -1,0 +1,74 @@
+<div class="main-content">
+    <div class="page-header">
+        <h1 class="page-title">Festas do Prestador</h1>
+        <p class="page-subtitle">Selecione um prestador para visualizar as festas escaladas</p>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="select-section">
+            <mat-form-field appearance="outline" class="employee-select">
+                <mat-label>Selecionar Prestador</mat-label>
+                <mat-select [(ngModel)]="selectedEmployeeId" (selectionChange)="onEmployeeSelected()">
+                    @for (employee of employees; track employee.id) {
+                    <mat-option [value]="employee.id">
+                        {{ employee.name }}
+                    </mat-option>
+                    }
+                </mat-select>
+                <mat-icon matPrefix>person_search</mat-icon>
+            </mat-form-field>
+        </div>
+
+        @if (providerData) {
+        <div class="provider-info">
+            <div class="provider-card">
+                <div class="provider-header">
+                    <mat-icon class="provider-icon" fontIcon="badge"></mat-icon>
+                    <h2 class="provider-name">{{ providerData.name }}</h2>
+                </div>
+                <div class="provider-details">
+                    <div class="detail-item">
+                        <mat-icon fontIcon="phone"></mat-icon>
+                        <span>{{ providerData.phone }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <mat-icon fontIcon="pix"></mat-icon>
+                        <span>{{ providerData.pixKey }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <mat-icon fontIcon="event"></mat-icon>
+                        <span>{{ parties.length }} festa(s) escalada(s)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+
+        @if (isLoading) {
+        <div class="loading-state">
+            <mat-icon class="loading-icon">hourglass_empty</mat-icon>
+            <p>Carregando festas...</p>
+        </div>
+        }
+
+        @if (parties.length > 0) {
+        <div class="parties-grid">
+            @for (party of parties; track $index) {
+            <app-card-calendar [party]="party"></app-card-calendar>
+            }
+        </div>
+        } @else if (providerData && !isLoading) {
+        <div class="empty-state">
+            <mat-icon class="empty-icon">event_busy</mat-icon>
+            <p class="empty-text">Nenhuma festa encontrada para este prestador</p>
+        </div>
+        }
+
+        @if (!providerData && !isLoading) {
+        <div class="initial-state">
+            <mat-icon class="initial-icon">assignment_ind</mat-icon>
+            <p class="initial-text">Selecione um prestador acima para visualizar suas festas</p>
+        </div>
+        }
+    </div>
+</div>

@@ -27,24 +27,40 @@
     <mat-icon class="icon" fontIcon="person_apron"></mat-icon>
      Festas
     </h2>
-  <div class="table">
-    <div class="table-header">
-      <div class="title">Nome do Cliente</div>
-      <div class="title">Local</div>
-      <div class="title">Data</div>
-      <div class="title">Pessoas</div>
-      <div class="title">Valor por Dia</div>
-      <div class="title">Status</div>
-    </div>
+  <div class="desktop-view">
+    <div class="table">
+      <div class="table-header">
+        <div class="title">Nome do Cliente</div>
+        <div class="title">Local</div>
+        <div class="title">Data</div>
+        <div class="title">Pessoas</div>
+        <div class="title">Valor por Dia</div>
+        <div class="title">Status</div>
+      </div>
 
-    @for (parties of listViewGarcom ? listViewGarcom.parties : []; track $index) {
-      <div class="table-row">
-        <div class="title">{{ parties.nameClient }}</div>
-        <div class="title">{{ parties.location }}</div>
-        <div class="title">{{ parties.date }}</div>
-        <div class="title">{{ parties.numberOfPeople}}</div>
-        <div class="title">{{ parties.valuePerDay}}</div>
-        <div class="title">{{ parties.status}}</div>
+      @for (parties of listViewGarcom ? listViewGarcom.parties : []; track $index) {
+        <div class="table-row">
+          <div class="title">{{ parties.nameClient }}</div>
+          <div class="title">{{ parties.location }}</div>
+          <div class="title">{{ parties.date }}</div>
+          <div class="title">{{ parties.numberOfPeople}}</div>
+          <div class="title">{{ parties.valuePerDay}}</div>
+          <div class="title">{{ parties.status}}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mobile-view">
+    @if (listViewGarcom && listViewGarcom.parties.length > 0) {
+      <div class="cards-list">
+        @for (party of listViewGarcom.parties; track $index) {
+          <app-data-card [title]="party.nameClient" [items]="getPartyCardItems(party)"></app-data-card>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        Nenhuma festa associada
       </div>
     }
   </div>

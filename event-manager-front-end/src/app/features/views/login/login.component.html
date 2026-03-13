@@ -11,7 +11,15 @@
       <h1 class="login-title">Faça seu Login</h1>
       <p class="login-subtitle">Entre com a sua plataforma de preferência</p>
 
-      <div id="google-signin-button"></div>
+      <div class="google-button-wrapper">
+        @if (!isGoogleButtonLoaded) {
+        <div class="google-button-loading">
+          <div class="spinner"></div>
+          <span>Carregando login com Google...</span>
+        </div>
+        }
+        <div id="google-signin-button"></div>
+      </div>
 
       <div class="divider">
         <span>Ou entre com seu usuário e senha</span>

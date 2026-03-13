@@ -436,3 +436,40 @@ $error-color: #dc3545;
     }
   }
 }
+
+.desktop-view {
+  display: block;
+  width: 100%;
+}
+
+.mobile-view {
+  display: none;
+  width: 100%;
+}
+
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px dashed var(--gray-light, #e0e0e0);
+  color: var(--gray-medium, #757575);
+  font-size: 14px;
+}
+
+@media (max-width: 990px) {
+  .desktop-view {
+    display: none !important;
+  }
+
+  .mobile-view {
+    display: block !important;
+  }
+}

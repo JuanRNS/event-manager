@@ -1,60 +1,69 @@
-<h2 mat-dialog-title>Adicionar Garçom</h2>
+<h2 mat-dialog-title>Adicionar Funcionário</h2>
+
 <mat-dialog-content>
-    <app-form
-        [group]="formGroupItens"
-        [form]="form"
-    ></app-form>
-    <div class="table">
-        <div class="table-header">
-            <div class="title">
-                Nome
-            </div>
-            <div class="title">
-                Contato
-            </div>
-            <div class="title">
-                Ações
-            </div>
-        </div>
-        @for (item of listGarcom; track $index) {
-            <div class="table-row">
-                <div class="title">
-                    {{item.name}}
+    <app-form [group]="formGroupItens" [form]="form"></app-form>
+
+    <div class="table-container">
+        <div class="desktop-view">
+            <div class="table">
+                <div class="table-header">
+                    <div class="title">Nome</div>
+                    <div class="title">Contato</div>
+                    <div class="title">Ações</div>
                 </div>
-                <div class="title">
-                    {{item.phone}}
-                </div>
-                <div class="title">
-                    @if (this.listGarcomAdd.includes(item.id)) {
+                @for (item of listGarcom; track $index) {
+                <div class="table-row">
+                    <div class="title">{{item.name}}</div>
+                    <div class="title">{{item.phone}}</div>
+                    <div class="title">
+                        @if (this.listGarcomAdd.includes(item.id)) {
                         <button mat-icon-button (click)="removeGarcom(item.id)">
                             <mat-icon fontIcon="close" class="close"></mat-icon>
                         </button>
-                    }@else {
+                        } @else {
                         <button mat-icon-button (click)="addGarcom(item.id)">
                             <mat-icon fontIcon="add" class="add"></mat-icon>
                         </button>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="mobile-view">
+            @if (listGarcom && listGarcom.length > 0) {
+                <div class="cards-list">
+                    @for (item of listGarcom; track $index) {
+                        <app-data-card [title]="item.name" [items]="getGarcomCardItems(item)">
+                            <div actions>
+                                @if (this.listGarcomAdd.includes(item.id)) {
+                                <button mat-icon-button (click)="removeGarcom(item.id)">
+                                    <mat-icon fontIcon="close" class="close"></mat-icon>
+                                </button>
+                                } @else {
+                                <button mat-icon-button (click)="addGarcom(item.id)">
+                                    <mat-icon fontIcon="add" class="add"></mat-icon>
+                                </button>
+                                }
+                            </div>
+                        </app-data-card>
                     }
                 </div>
-            </div>
-        }
+            } @else {
+                <div class="empty-state">
+                    Nenhum funcionário encontrado
+                </div>
+            }
+        </div>
     </div>
-    <mat-paginator
-        [length]="totalElements"
-        [pageSize]="pageSize"
-        (page)="onPageChange($event)"
-        hidePageSize="true"
-    ></mat-paginator>
+
+    <mat-paginator [length]="totalElements" [pageSize]="pageSize" (page)="onPageChange($event)"
+        hidePageSize="true"></mat-paginator>
 
     <div class="footer-button">
-        @if (isSubmit) {
-            <button mat-button class="btn btn-primary" (click)="submit()">
-                Salvar
-            </button>
-        }@else {
-            <button mat-button class="btn btn-secondary" (click)="submit()">
-                Fechar
-            </button>
-        }
+        <button mat-button [class]="isSubmit ? 'btn btn-primary' : 'btn btn-secondary'" (click)="submit()">
+            {{ isSubmit ? 'Salvar' : 'Fechar' }}
+        </button>
     </div>
-
 </mat-dialog-content>

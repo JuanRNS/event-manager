@@ -1,6 +1,6 @@
 import { IEmployeeType, IPage, IResponseMaterial } from "./event.interface";
 
-export interface IResponseParty{
+export interface IResponseParty {
   id: number;
   location: string;
   nameClient: string;
@@ -12,21 +12,23 @@ export interface IResponseParty{
   status: string;
 }
 
-export interface IResponseValues{
-    id: number;
-    employeeType: IEmployeeType;
-    value: number;
+export interface IResponseValues {
+  id: number;
+  employeeType: IEmployeeType;
+  value: number;
 }
 
-export interface IRequestParty{
+export interface IRequestParty {
   location: string;
   nameClient: string;
   date: string;
   idMaterial: number;
   numberOfPeople: number;
+  hourStart: string;
+  hourEnd: string;
 }
 
-export interface IResponseListParty{
+export interface IResponseListParty {
   content: IResponseParty[];
   page: IPage;
 }

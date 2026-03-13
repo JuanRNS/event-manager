@@ -11,6 +11,7 @@ import { ToastService } from '../../../services/toast.service';
 import { IResponseValues } from '../../../interface/party.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DataCardComponent } from '../../data-card/data-card.component';
 
 @Component({
   selector: 'app-modal-update-festa',
@@ -19,7 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     FormComponent,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    DataCardComponent
   ],
   templateUrl: './modal-update-festa.component.html',
   styleUrl: './modal-update-festa.component.scss'
@@ -146,5 +148,11 @@ export class ModalUpdateFestaComponent implements OnInit {
   public deleteValue(item: IResponseValues) {
     this.listValues = this.listValues.filter(i => i.id !== item.id);
     this.alterTable = !this.alterTable;
+  }
+
+  public getValueCardItems(item: any) {
+    return [
+      { label: 'Valor', value: item.value }
+    ];
   }
 }

@@ -1,0 +1,130 @@
+.party-card {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--primary-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    &.status-confirmed {
+        border-left-color: var(--success);
+    }
+
+    &.status-cancelled {
+        border-left-color: var(--danger);
+    }
+
+    &.status-pending {
+        border-left-color: var(--warning);
+    }
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.client-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-icon {
+    color: var(--primary-color);
+    font-size: 24px;
+}
+
+.client-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: var(--gray-light);
+    color: var(--gray-medium);
+
+    &.status-confirmed {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    &.status-cancelled {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    &.status-pending {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.info-icon {
+    color: var(--gray-medium);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.info-text {
+    font-size: 14px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.value-row {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-light);
+}
+
+.value-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+@media (max-width: 990px) {
+    .party-card {
+        padding: 16px;
+    }
+
+    .client-name {
+        font-size: 16px;
+    }
+
+    .status-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
