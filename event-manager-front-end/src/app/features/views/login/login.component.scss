@@ -1,11 +1,15 @@
 .login-container {
   display: flex;
   min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   background-color: var(--background-color);
+  box-sizing: border-box;
 }
 
 .login-sidebar {
-  flex:  0 0 600px;
+  flex: 0 0 600px;
   background-color: #d8d8d8;
   display: flex;
   align-items: center;
@@ -26,7 +30,7 @@
   margin: 0 auto 30px;
   font-size: 32px;
 
-  img{
+  img {
     width: 512px;
     height: 341px;
   }
@@ -66,9 +70,11 @@
 
 .login-form-section {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   background-color: var(--white);
+  overflow: hidden;
 }
 
 .login-header {
@@ -101,6 +107,7 @@
   max-width: 400px;
   margin: 0 auto;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .login-title {
@@ -138,7 +145,8 @@
   font-size: 16px;
   font-weight: bold;
 }
-#google-signin-button{
+
+#google-signin-button {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -261,30 +269,33 @@
   text-decoration: none;
 }
 
-/* Responsividade */
-@media (max-width: 990px) {
+@media (max-width: 768px) {
   .login-container {
     flex-direction: column;
   }
-  
+
   .login-sidebar {
     display: none;
   }
-  
+
   .login-sidebar-title {
     font-size: 24px;
   }
-  
+
+  .login-header {
+    padding: 16px 20px;
+  }
+
   .login-form-container {
-    padding: 20px;
+    padding: 24px 20px;
+    max-width: 100%;
   }
-  
+
   .login-title {
-    font-size: 28px;
+    font-size: 26px;
   }
-  
+
   .social-login {
     flex-direction: column;
   }
 }
-
