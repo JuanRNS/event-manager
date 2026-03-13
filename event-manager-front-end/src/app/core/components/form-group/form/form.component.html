@@ -1,5 +1,5 @@
 <form>
-  <div class="row">
+  <div class="row" [class.responsive-row]="responsive()">
     @for (item of group(); track $index) {
       <div class="col-{{item.size}}">
         @if (isInput(item)) {

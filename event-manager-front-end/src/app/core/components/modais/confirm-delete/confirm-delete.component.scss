@@ -1,0 +1,44 @@
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 16px;
+    gap: 12px;
+    overflow: hidden;
+
+    h2 {
+        margin-top: 0;
+        color: #2c3e50;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    p {
+        color: #5a67d8;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+
+        .btn {
+            border-radius: 8px;
+            padding: 8px 24px;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+
+            &.btn-secondary {
+                background-color: #e3434b; // Vermelho da imagem
+            }
+
+            &.btn-primary {
+                background-color: #4fd1c5; // Verde água da imagem
+            }
+        }
+    }
+}

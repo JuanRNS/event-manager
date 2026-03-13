@@ -80,6 +80,16 @@
   font-size: 12px;
 }
 
+.parties-registration-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .btn {
+    align-self: flex-start;
+  }
+}
+
 .parties-section {
   border-top: 1px solid var(--gray-light);
   padding-top: 30px;
@@ -179,8 +189,44 @@
   }
 }
 
+.desktop-view {
+  display: block;
+  width: 100%;
+}
+
+.mobile-view {
+  display: none;
+  width: 100%;
+}
+
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px dashed var(--gray-light, #e0e0e0);
+  color: var(--gray-medium, #757575);
+  font-size: 14px;
+}
+
 /* Responsividade */
 @media (max-width: 990px) {
+
+  .desktop-view {
+    display: none;
+  }
+
+  .mobile-view {
+    display: block;
+  }
+
   .main-content {
     margin-left: 0;
     padding: 20px;
@@ -202,7 +248,7 @@
   }
 
   .btn {
-    width: 100%;
+    width: auto;
   }
 
   .content-wrapper {

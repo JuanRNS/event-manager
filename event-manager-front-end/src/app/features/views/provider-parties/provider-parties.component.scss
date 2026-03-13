@@ -1,0 +1,172 @@
+.main-content {
+    flex: 1;
+    padding: 32px;
+    background-color: var(--background-color);
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 8px 0;
+}
+
+.page-subtitle {
+    font-size: 15px;
+    color: var(--gray-medium);
+    margin: 0;
+}
+
+.content-wrapper {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.select-section {
+    margin-bottom: 24px;
+}
+
+.employee-select {
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Info do Prestador */
+.provider-info {
+    margin-bottom: 28px;
+}
+
+.provider-card {
+    background: linear-gradient(135deg, var(--secondary-color), #3d566e);
+    border-radius: 10px;
+    padding: 24px;
+    color: var(--white);
+}
+
+.provider-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.provider-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: var(--primary-color);
+}
+
+.provider-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.provider-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.9;
+
+    mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: var(--primary-color);
+    }
+}
+
+/* Grid de Cards */
+.parties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* Estados */
+.loading-state,
+.empty-state,
+.initial-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.loading-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--primary-color);
+    animation: spin 1.5s linear infinite;
+}
+
+.empty-icon,
+.initial-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: var(--gray-light);
+    margin-bottom: 16px;
+}
+
+.empty-text,
+.initial-text {
+    font-size: 16px;
+    color: var(--gray-medium);
+    margin: 0;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 990px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    .content-wrapper {
+        padding: 20px;
+    }
+
+    .employee-select {
+        max-width: 100%;
+    }
+
+    .parties-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .provider-details {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+}

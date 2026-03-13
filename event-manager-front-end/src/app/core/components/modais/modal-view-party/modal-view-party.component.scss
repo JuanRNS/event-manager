@@ -13,6 +13,18 @@
   color: #222;
 }
 
+mat-dialog-content {
+  width: 100%;
+  max-width: 90vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  @media (max-width: 990px) {
+    max-width: 95vw;
+    padding: 16px !important;
+  }
+}
+
 .status {
   padding: 2px 8px;
   border-radius: 12px;
@@ -49,7 +61,10 @@
     .title, .title-buttons{
       font-size: 16px;
       text-align: center;
-      width: 20%;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .title-buttons{

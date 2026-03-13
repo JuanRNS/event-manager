@@ -13,7 +13,8 @@ export type FormType =
   | 'time'
   | 'checkbox'
   | 'radio'
-  | 'select';
+  | 'select'
+  | 'datetime-local';
 
 export interface FormGroupValue {
   component: FormFieldEnum;
@@ -31,9 +32,9 @@ export interface FormGroupValue {
 
 export type values = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
 
-export interface IOptions{
-    id: number | string;
-    description: string;
+export interface IOptions {
+  id: number | string;
+  description: string;
 }
 
 export type FormGroupArray = FormGroupValue[];

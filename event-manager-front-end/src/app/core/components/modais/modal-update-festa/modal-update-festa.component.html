@@ -2,33 +2,49 @@
 <mat-dialog-content>
     <app-form [group]="formGroupItens" [form]="form"></app-form>
     @if (listValues.length > 0) {
-        <div class="table">
-            <div class="table-header">
-                <div class="title">
-                    Tipo
+        <div class="desktop-view">
+            <div class="table">
+                <div class="table-header">
+                    <div class="title">
+                        Tipo
+                    </div>
+                    <div class="title">
+                        Valor
+                    </div>
+                    <div class="title">
+                        Ações
+                    </div>
                 </div>
-                <div class="title">
-                    Valor
-                </div>
-                <div class="title">
-                    Ações
-                </div>
+                @for (item of listValues; track $index) {
+                    <div class="table-row">
+                        <div class="title">
+                            {{item.employeeType.type}}
+                        </div>
+                        <div class="title">
+                            {{item.value}}
+                        </div>
+                        <div class="title">
+                            <button mat-icon-button (click)="deleteValue(item)">
+                                <mat-icon fontIcon="delete"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                }
             </div>
-            @for (item of listValues; track $index) {
-                <div class="table-row">
-                    <div class="title">
-                        {{item.employeeType.type}}
-                    </div>
-                    <div class="title">
-                        {{item.value}}
-                    </div>
-                    <div class="title">
-                        <button mat-icon-button (click)="deleteValue(item)">
-                            <mat-icon fontIcon="delete"></mat-icon>
-                        </button>
-                    </div>
-                </div>
-            }
+        </div>
+
+        <div class="mobile-view">
+            <div class="cards-list">
+                @for (item of listValues; track $index) {
+                    <app-data-card [title]="item.employeeType.type" [items]="getValueCardItems(item)">
+                        <div actions>
+                            <button mat-icon-button (click)="deleteValue(item)">
+                                <mat-icon fontIcon="delete"></mat-icon>
+                            </button>
+                        </div>
+                    </app-data-card>
+                }
+            </div>
         </div>
     }
     <div class="button">

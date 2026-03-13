@@ -39,24 +39,40 @@
     <mat-icon class="icon" fontIcon="person_apron"></mat-icon>
      Funcionários
     </h2>
-  <div class="table">
-    <div class="table-header">
-      <div class="title">Nome</div>
-      <div class="title">Telefone</div>
-      <div class="title">Pix</div>
-      <div class="title">Status</div>
-    </div>
+  <div class="desktop-view">
+    <div class="table">
+      <div class="table-header">
+        <div class="title">Nome</div>
+        <div class="title">Telefone</div>
+        <div class="title">Pix</div>
+        <div class="title">Status</div>
+      </div>
 
-    @for (employee of listViewParty ? listViewParty.employees : []; track $index) {
-      <div class="table-row">
-        <div class="title">{{ employee.name }}</div>
-        <div class="title">{{ employee.phone }}</div>
-        <div class="title">{{ employee.pixKey }}</div>
-        <div class="title">
-          <span class="status status-{{ employee.statusEmployee }}">
-            {{ employee.statusEmployee }}
-          </span>
+      @for (employee of listViewParty ? listViewParty.employees : []; track $index) {
+        <div class="table-row">
+          <div class="title">{{ employee.name }}</div>
+          <div class="title">{{ employee.phone }}</div>
+          <div class="title">{{ employee.pixKey }}</div>
+          <div class="title">
+            <span class="status status-{{ employee.statusEmployee }}">
+              {{ employee.statusEmployee }}
+            </span>
+          </div>
         </div>
+      }
+    </div>
+  </div>
+
+  <div class="mobile-view">
+    @if (listViewParty && listViewParty.employees.length > 0) {
+      <div class="cards-list">
+        @for (employee of listViewParty.employees; track $index) {
+          <app-data-card [title]="employee.name" [items]="getEmployeeCardItems(employee)"></app-data-card>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        Nenhum funcionário associado
       </div>
     }
   </div>

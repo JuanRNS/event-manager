@@ -144,21 +144,24 @@
 
 .materials-list {
   margin-top: 20px;
-  background-color: var(--background-color);
-  border-radius: 8px;
-  padding: 20px;
-  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .material-item {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--gray-light);
+  display: flex;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px solid var(--gray-light);
   font-size: 14px;
   color: var(--text-color);
+  width: 100%;
 }
 
 .material-item:last-child {
-  border-bottom: none;
+  border-bottom: 1px solid var(--gray-light); /* Maintain the border for consistancy since it's a card/table container block now */
 }
 
 .material-name {
@@ -204,7 +207,7 @@
 
 .button-add-type {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   padding: 8px 16px;
   gap: 12px;
 
@@ -214,8 +217,43 @@
 }
 
 
+.desktop-view {
+  display: block;
+  width: 100%;
+}
+
+.mobile-view {
+  display: none;
+  width: 100%;
+}
+
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px dashed var(--gray-light, #e0e0e0);
+  color: var(--gray-medium, #757575);
+  font-size: 14px;
+}
+
 /* Responsividade */
 @media (max-width: 990px) {
+  .desktop-view {
+    display: none;
+  }
+
+  .mobile-view {
+    display: block;
+  }
+
   .main-content {
     margin-left: 0;
     padding: 20px;
@@ -237,7 +275,7 @@
   }
 
   .btn {
-    width: 100%;
+    width: auto;
   }
 
   .content-wrapper {

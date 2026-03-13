@@ -7,47 +7,41 @@
 
     <div class="content-wrapper">
       <div class="section">
-        <app-form 
-        [group]="formGroupItensPrimary" 
-        [form]="formPrimary"
-        >
-      </app-form>
-      <div class="row">
-        <div class="col-12">
-          @if (createEmployeeType) {
+        <app-form [group]="formGroupItensPrimary" [form]="formPrimary">
+        </app-form>
+        <div class="row">
+          <div class="col-12">
+            @if (createEmployeeType) {
             <div class="row">
-              <app-form
-                [group]="formGroupItensEmployeeType"
-                [form]="formEmployeeType"
-                class="col-6"
-              >
+              <app-form [group]="formGroupItensEmployeeType" [form]="formEmployeeType" class="col-6">
               </app-form>
               <div class="button-add-type col-6">
                 <button mat-button class="btn btn-secondary" (click)="createEmployeeType = false">
                   Cancelar
                 </button>
                 <button mat-button class="btn btn-primary" (click)="createEmployeeTypeRequest()">
-                  Cadastrar 
+                  Cadastrar
                 </button>
               </div>
             </div>
-          }@else {
-            <div class="button-add-type col-12">
-              <button mat-button class="btn btn-primary button-type" (click)="createEmployeeType = true" title="Adicionar Tipo de Funcionário">
-                Adicionar Tipo de Funcionário
-              </button> 
-            </div>
-          }
+            }@else {
+            <button mat-button class="btn btn-primary button-type" (click)="createEmployeeType = true"
+              title="Adicionar Tipo de Funcionário">
+              Adicionar Tipo de Funcionário
+            </button>
+            }
+          </div>
         </div>
       </div>
-        <button type="submit" class="btn btn-primary" (click)="createEmployee()">Cadastrar</button>
+      <button type="submit" class="btn btn-primary" (click)="createEmployee()">Cadastrar</button>
 
-        <div class="waiters-section">
-          <h3 class="subsection-title">Funcionários Cadastrados</h3>
+      <div class="waiters-section">
+        <h3 class="subsection-title">Funcionários Cadastrados</h3>
 
-          <div class="waiters-list">
-            <div class="waiter-item">
-              <div class="waiter-info">
+        <div class="waiters-list">
+          <div class="waiter-item">
+            <div class="waiter-info">
+              <div class="desktop-view">
                 <div class="table">
                   <div class="table-header">
                     <div class="title">
@@ -69,6 +63,7 @@
                       Ações
                     </div>
                   </div>
+                  @if (ListEmployees.length > 0) {
                   @for (item of ListEmployees; track $index) {
                   <div class="table-row">
                     <div class="title">
@@ -95,16 +90,46 @@
                       <button mat-icon-button [matMenuTriggerFor]="menu">
                         <mat-icon fontIcon="menu"></mat-icon>
                       </button>
-                    </div>  
+                    </div>
                   </div>
-                }
-                <mat-paginator 
-                [length]="totalElements" 
-                [pageSize]="pageSize"
-                (page)="onChangePage($event)"
-                hidePageSize
-                ></mat-paginator>
+                  }
+                  } @else {
+                  <div class="table-row">
+                    <div class="title">
+                      Nenhum funcionário cadastrado
+                    </div>
+                  </div>
+                  }
+                </div>
               </div>
+
+              <div class="mobile-view">
+                @if (ListEmployees.length > 0) {
+                <div class="cards-list">
+                  @for (item of ListEmployees; track $index) {
+                  <app-data-card [title]="item.name" [items]="getEmployeeCardItems(item)">
+                    <div actions>
+                      <mat-menu #menuMobile="matMenu">
+                        <button mat-menu-item (click)="editEmployee(item.id)">Editar Garçom</button>
+                        <button mat-menu-item (click)="deleteEmployee(item.id)">Excluir Garçom</button>
+                        <button mat-menu-item (click)="viewFestas(item.id)">Visualizar Garçom</button>
+                      </mat-menu>
+                      <button mat-icon-button [matMenuTriggerFor]="menuMobile">
+                        <mat-icon fontIcon="more_vert"></mat-icon>
+                      </button>
+                    </div>
+                  </app-data-card>
+                  }
+                </div>
+                } @else {
+                <div class="empty-state">
+                  Nenhum funcionário cadastrado
+                </div>
+                }
+              </div>
+
+              <mat-paginator [length]="totalElements" [pageSize]="pageSize" (page)="onChangePage($event)"
+                hidePageSize></mat-paginator>
             </div>
           </div>
         </div>
@@ -114,48 +139,75 @@
         <h2 class="section-title">Cadastro de Materiais</h2>
 
         <div class="form-group">
-          <app-form 
-          [group]="formGroupItensThird" 
-          [form]="formThird"
-          >
-        </app-form>
+          <app-form [group]="formGroupItensThird" [form]="formThird">
+          </app-form>
         </div>
 
-        <button 
-        type="submit" 
-        class="btn btn-primary"
-        (click)="createMaterial()"
-        >
+        <button type="submit" class="btn btn-primary" (click)="createMaterial()">
           Cadastrar
         </button>
 
         <div class="materials-list">
           <div class="material-item">
-            <div class="table">
-              <div class="table-header">
-                <div class="title">
-                  Tipo de material
+            <div class="desktop-view">
+              <div class="table">
+                <div class="table-header">
+                  <div class="title">
+                    Tipo de material
+                  </div>
+                  <div class="title">
+                    Ações
+                  </div>
                 </div>
-                <div class="title">
-                  Ações
+                @if (ListMaterials.length > 0) {
+                @for (item of ListMaterials; track $index) {
+                <div class="table-row">
+                  <div class="title">
+                    {{item.description}}
+                  </div>
+                  <div class="title">
+                    <mat-menu #menuMaterial="matMenu">
+                      <button mat-menu-item (click)="editMaterial(item.id)">Editar Material</button>
+                      <button mat-menu-item (click)="deleteMaterial(item.id)">Excluir Material</button>
+                    </mat-menu>
+                    <button mat-icon-button [matMenuTriggerFor]="menuMaterial">
+                      <mat-icon fontIcon="menu"></mat-icon>
+                    </button>
+                  </div>
                 </div>
+                }
+                }@else {
+                <div class="table-row">
+                  <div class="title">
+                    Nenhum material cadastrado
+                  </div>
+                </div>
+                }
               </div>
-              @for (item of ListMaterials; track $index) {
-              <div class="table-row">
-                <div class="title">
-                  {{item.description}}
+            </div>
+
+            <div class="mobile-view">
+                @if (ListMaterials.length > 0) {
+                <div class="cards-list">
+                  @for (item of ListMaterials; track $index) {
+                  <app-data-card [title]="item.description" [items]="getMaterialCardItems(item)">
+                    <div actions>
+                      <mat-menu #menuMaterialMobile="matMenu">
+                        <button mat-menu-item (click)="editMaterial(item.id)">Editar Material</button>
+                        <button mat-menu-item (click)="deleteMaterial(item.id)">Excluir Material</button>
+                      </mat-menu>
+                      <button mat-icon-button [matMenuTriggerFor]="menuMaterialMobile">
+                        <mat-icon fontIcon="more_vert"></mat-icon>
+                      </button>
+                    </div>
+                  </app-data-card>
+                  }
                 </div>
-                <div class="title">
-                  <mat-menu #menuMaterial="matMenu">
-                    <button mat-menu-item (click)="editMaterial(item.id)">Editar Material</button>
-                    <button mat-menu-item (click)="deleteMaterial(item.id)">Excluir Material</button>
-                  </mat-menu>
-                  <button mat-icon-button [matMenuTriggerFor]="menuMaterial">
-                    <mat-icon fontIcon="menu"></mat-icon>
-                  </button>
+                } @else {
+                <div class="empty-state">
+                  Nenhum material cadastrado
                 </div>
-              </div>
-              }
+                }
             </div>
           </div>
         </div>

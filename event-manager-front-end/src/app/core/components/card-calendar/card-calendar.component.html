@@ -1,0 +1,38 @@
+<div class="party-card" [class]="getStatusClass()">
+    <div class="card-header">
+        <div class="client-info">
+            <mat-icon class="header-icon" fontIcon="person"></mat-icon>
+            <h3 class="client-name">{{ party().nameClient }}</h3>
+        </div>
+        <span class="status-badge" [class]="getStatusClass()">
+            {{ party().status }}
+        </span>
+    </div>
+
+    <div class="card-body">
+        <div class="info-row">
+            <mat-icon class="info-icon" fontIcon="location_on"></mat-icon>
+            <span class="info-text">{{ party().location }}</span>
+        </div>
+
+        <div class="info-row">
+            <mat-icon class="info-icon" fontIcon="calendar_today"></mat-icon>
+            <span class="info-text">{{ party().date | date: 'dd/MM/yyyy' }}</span>
+        </div>
+
+        <div class="info-row">
+            <mat-icon class="info-icon" fontIcon="schedule"></mat-icon>
+            <span class="info-text">{{ party().hourStart }} - {{ party().hourEnd }}</span>
+        </div>
+
+        <div class="info-row">
+            <mat-icon class="info-icon" fontIcon="groups"></mat-icon>
+            <span class="info-text">{{ party().numberOfPeople }} convidados</span>
+        </div>
+
+        <div class="info-row value-row">
+            <mat-icon class="info-icon" fontIcon="attach_money"></mat-icon>
+            <span class="info-text value-text">R$ {{ party().valuePerDay }}</span>
+        </div>
+    </div>
+</div>
