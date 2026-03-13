@@ -39,7 +39,8 @@ public interface EmployeeMapper {
     @Mapping(source = "employeeParties", target = "parties", ignore = true) // Ignora pois a lógica é complexa (filtro por tipo)
     EmployeePartyDTO toEmployeePartyDTO(Employee employee);
 
-    PartyByEmployeeIdDTO toPartyByEmployeeIdDTO(String location, String nameClient, java.time.LocalDateTime date, BigDecimal value, StatusParty status, Integer numberOfPeople);
+    @Mapping(source = "value", target = "valuePerDay")
+    PartyByEmployeeIdDTO toPartyByEmployeeIdDTO(String location, String nameClient, java.time.LocalDateTime date, BigDecimal value, StatusParty status, Long numberOfPeople, String hourStart, String hourEnd);
     @Mapping(source = "countParties", target = "totalParties")
     @Mapping(source = "totalSalary", target = "valueTotal")
     @Mapping(source = "employeeType", target = "employeeType")

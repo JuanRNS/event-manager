@@ -8,6 +8,8 @@ public record PartyRequestDTO(
         String location,
         LocalDateTime date,
         Long idMaterial,
-        Long numberOfPeople
+        Long numberOfPeople,
+        String hourStart,
+        String hourEnd
 ) {
 }
