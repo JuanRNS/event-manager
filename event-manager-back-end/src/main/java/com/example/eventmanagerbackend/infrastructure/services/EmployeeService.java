@@ -170,14 +170,15 @@ public class EmployeeService {
         return employee.getEmployeeParties().stream()
                 .map(party -> {
                     BigDecimal value = calculatePartyValueForType(party, employee.getEmployeeType());
-
                     return employeeMapper.toPartyByEmployeeIdDTO(
                             party.getLocation(),
                             party.getNameClient(),
                             party.getDate(),
                             value,
                             party.getStatus(),
-                            Math.toIntExact(party.getNumberOfPeople())
+                            party.getNumberOfPeople(),
+                            party.getHourStart(),
+                            party.getHourEnd()
                     );
                 })
                 .toList();

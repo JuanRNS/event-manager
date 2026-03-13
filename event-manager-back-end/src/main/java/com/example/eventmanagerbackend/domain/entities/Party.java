@@ -39,6 +39,12 @@ public class Party {
     @Column(name = "number_of_people", nullable = false)
     private Long numberOfPeople;
 
+    @Column(name = "hour_start", nullable = false)
+    private String hourStart;
+
+    @Column(name = "hour_end", nullable = false)
+    private String hourEnd;
+
     @OneToMany(mappedBy = "party", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeePartiesValues> values = new ArrayList<>();
 

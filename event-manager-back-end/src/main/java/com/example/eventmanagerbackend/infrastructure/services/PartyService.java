@@ -152,7 +152,7 @@ public class PartyService {
 
         List<EmployeePartiesValues> newValues = valuesDtos.stream()
                 .map(v -> {
-                    EmployeeType type = employeeTypeService.getEmployeeTypeById(v.id());
+                    EmployeeType type = employeeTypeService.getEmployeeTypeById(v.employeeType().getId());
                     return new EmployeePartiesValues(type, party, v.value());
                 }).toList();
 

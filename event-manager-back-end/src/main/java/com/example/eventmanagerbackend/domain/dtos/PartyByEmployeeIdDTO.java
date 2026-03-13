@@ -11,6 +11,8 @@ public record PartyByEmployeeIdDTO(
         LocalDateTime date,
         BigDecimal valuePerDay,
         StatusParty status,
-        Long numberOfPeople
+        Long numberOfPeople,
+        String hourStart,
+        String hourEnd
 ) {
 }

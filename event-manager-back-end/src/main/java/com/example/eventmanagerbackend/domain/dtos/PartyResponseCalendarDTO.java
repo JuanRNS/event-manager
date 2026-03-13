@@ -1,11 +1,13 @@
 package com.example.eventmanagerbackend.domain.dtos;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record PartyResponseCalendarDTO(
         Long id,
         String nameClient,
         String location,
-        LocalDateTime date
+        LocalDate date,
+        String hourStart,
+        String hourEnd
 ) {
 }
