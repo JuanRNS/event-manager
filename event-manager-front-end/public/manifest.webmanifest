@@ -1,15 +1,21 @@
 {
-  "name": "party-house-system",
-  "short_name": "party-house-system",
+  "name": "event-manager",
+  "short_name": "event-manager",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
   "icons": [
     {
-      "src": "icons/icon.png",
+      "src": "icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     }
   ]
 }
