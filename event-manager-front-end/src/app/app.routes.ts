@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadComponent: () => import('./features/views/dashboard-week/dashboard-week.component').then((m) => m.DashboardWeekComponent),
+    loadComponent: () => import('./features/views/dashboard/dashboard.component').then((m) => m.DashboardComponent),
     canActivate: [authGuard]
   },
   {
@@ -30,7 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'party-list',
-    loadComponent: () => import('./features/views/party-all-list/party-all-list.component').then((m) => m.PartyAllListComponent),
+    loadComponent: () => import('./features/views/party/party.component').then((m) => m.PartyAllListComponent),
     canActivate: [authGuard]
   },
   {

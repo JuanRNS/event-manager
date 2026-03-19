@@ -42,14 +42,15 @@ mat-dialog-content {
   color: #c62828;
 }
 
-.table{
+.table {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: var(--background-color);
 
-  .table-header, .table-row{
+  .table-header,
+  .table-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -57,8 +58,9 @@ mat-dialog-content {
     padding: 10px 20px;
     background-color: var(--primary-color);
     color: var(--white);
-    
-    .title, .title-buttons{
+
+    .title,
+    .title-buttons {
       font-size: 16px;
       text-align: center;
       flex: 1;
@@ -67,28 +69,31 @@ mat-dialog-content {
       white-space: nowrap;
     }
 
-    .title-buttons{
+    .title-buttons {
       display: flex;
       gap: 12px;
     }
   }
-  .table-row{
+
+  .table-row {
     background-color: var(--background-color);
     color: var(--text-color);
   }
 }
 
-.header{
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  h2{
+
+  h2 {
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .close-button{
+
+  .close-button {
     margin-right: 16px;
   }
 }

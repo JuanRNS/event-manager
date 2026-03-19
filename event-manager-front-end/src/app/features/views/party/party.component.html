@@ -82,7 +82,7 @@
                   @if (listParty.length > 0) {
                   <div class="cards-list">
                     @for (item of listParty; track $index) {
-                    <app-data-card [title]="item.nameClient" [items]="getPartyCardItems(item)">
+                    <app-data-card [title]="item.nameClient" [items]="getPartyCardItems(item)" [status]="item.status">
                       <div actions>
                         <mat-menu #menuMobile="matMenu">
                           <button mat-menu-item (click)="editParty(item.id)">Editar Festa</button>

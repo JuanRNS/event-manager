@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PartyAllListComponent } from './party-all-list.component';
+import { PartyAllListComponent } from './party.component';
 
 describe('PartyAllListComponent', () => {
   let component: PartyAllListComponent;
@@ -10,7 +10,7 @@ describe('PartyAllListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PartyAllListComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PartyAllListComponent);
     component = fixture.componentInstance;

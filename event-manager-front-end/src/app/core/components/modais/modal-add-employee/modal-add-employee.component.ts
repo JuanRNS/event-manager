@@ -23,10 +23,10 @@ import { DataCardComponent } from '../../data-card/data-card.component';
     FormComponent,
     DataCardComponent
   ],
-  templateUrl: './modal-add-garcom.component.html',
-  styleUrl: './modal-add-garcom.component.scss'
+  templateUrl: './modal-add-employee.component.html',
+  styleUrl: './modal-add-employee.component.scss'
 })
-export class ModalAddGarcomComponent implements OnInit {
+export class ModalAddEmployeeComponent implements OnInit {
   public listGarcom: IResponseListAddEmployee[] = [];
   public listGarcomOriginal: IResponseListAddEmployee[] = [];
   public listGarcomAdd: number[] = [];
@@ -41,7 +41,7 @@ export class ModalAddGarcomComponent implements OnInit {
   constructor(
     private readonly _service: ApiService,
     private readonly _toast: ToastService,
-    private readonly _dialogRef: MatDialogRef<ModalAddGarcomComponent>,
+    private readonly _dialogRef: MatDialogRef<ModalAddEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
   ) { }
 

@@ -5,4 +5,5 @@ export interface ICalendarEvent {
     date: string;
     hourStart: string;
     hourEnd: string;
+    status: string;
 }

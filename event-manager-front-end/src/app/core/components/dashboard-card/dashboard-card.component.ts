@@ -12,17 +12,17 @@ import { IResponseDashboard } from '../../interface/dashboard.interface';
     MatPaginatorModule,
     SummaryComponent
   ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  templateUrl: './dashboard-card.component.html',
+  styleUrl: './dashboard-card.component.scss'
 })
-export class DashboardComponent {
+export class DashboardCardComponent {
   public listDashboard = input<IResponseDashboard[]>([]);
   public totalElements = input<number>(0);
   public pageSize = input<number>(3);
-  constructor() {}
+  constructor() { }
 
   @Output() pageChange = new EventEmitter<PageEvent>();
-  @Output() download = new EventEmitter<{id: number, name: string}>();
+  @Output() download = new EventEmitter<{ id: number, name: string }>();
 
   onDownload(id: number, name: string) {
     this.download.emit({ id, name });

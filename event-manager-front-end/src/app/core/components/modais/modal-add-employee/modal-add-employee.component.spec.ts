@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalAddGarcomComponent } from './modal-add-garcom.component';
+import { ModalAddGarcomComponent } from './modal-add-employee.component';
 
 describe('ModalAddGarcomComponent', () => {
   let component: ModalAddGarcomComponent;
@@ -10,7 +10,7 @@ describe('ModalAddGarcomComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ModalAddGarcomComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ModalAddGarcomComponent);
     component = fixture.componentInstance;

@@ -16,4 +16,14 @@ export interface DataCardItem {
 export class DataCardComponent {
   @Input() title?: string;
   @Input() items: DataCardItem[] = [];
+  @Input() status: string = 'ATIVO';
+
+  public getStatusEmployee(): string {
+    if (this.status === 'ATIVO') return 'status-active';
+    if (this.status === 'INATIVO') return 'status-inactive';
+    if (this.status === 'AGENDADA') return 'status-pending';
+    if (this.status === 'REALIZADA') return 'status-done';
+    if (this.status === 'CANCELADA') return 'status-canceled';
+    return 'status-default';
+  }
 }

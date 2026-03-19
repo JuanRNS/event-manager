@@ -107,7 +107,8 @@
                 @if (ListEmployees.length > 0) {
                 <div class="cards-list">
                   @for (item of ListEmployees; track $index) {
-                  <app-data-card [title]="item.name" [items]="getEmployeeCardItems(item)">
+                  <app-data-card [title]="item.name" [items]="getEmployeeCardItems(item)"
+                    [status]="item.statusEmployee">
                     <div actions>
                       <mat-menu #menuMobile="matMenu">
                         <button mat-menu-item (click)="editEmployee(item.id)">Editar Garçom</button>
@@ -187,27 +188,27 @@
             </div>
 
             <div class="mobile-view">
-                @if (ListMaterials.length > 0) {
-                <div class="cards-list">
-                  @for (item of ListMaterials; track $index) {
-                  <app-data-card [title]="item.description" [items]="getMaterialCardItems(item)">
-                    <div actions>
-                      <mat-menu #menuMaterialMobile="matMenu">
-                        <button mat-menu-item (click)="editMaterial(item.id)">Editar Material</button>
-                        <button mat-menu-item (click)="deleteMaterial(item.id)">Excluir Material</button>
-                      </mat-menu>
-                      <button mat-icon-button [matMenuTriggerFor]="menuMaterialMobile">
-                        <mat-icon fontIcon="more_vert"></mat-icon>
-                      </button>
-                    </div>
-                  </app-data-card>
-                  }
-                </div>
-                } @else {
-                <div class="empty-state">
-                  Nenhum material cadastrado
-                </div>
+              @if (ListMaterials.length > 0) {
+              <div class="cards-list">
+                @for (item of ListMaterials; track $index) {
+                <app-data-card [title]="item.description" [items]="getMaterialCardItems(item)">
+                  <div actions>
+                    <mat-menu #menuMaterialMobile="matMenu">
+                      <button mat-menu-item (click)="editMaterial(item.id)">Editar Material</button>
+                      <button mat-menu-item (click)="deleteMaterial(item.id)">Excluir Material</button>
+                    </mat-menu>
+                    <button mat-icon-button [matMenuTriggerFor]="menuMaterialMobile">
+                      <mat-icon fontIcon="more_vert"></mat-icon>
+                    </button>
+                  </div>
+                </app-data-card>
                 }
+              </div>
+              } @else {
+              <div class="empty-state">
+                Nenhum material cadastrado
+              </div>
+              }
             </div>
           </div>
         </div>

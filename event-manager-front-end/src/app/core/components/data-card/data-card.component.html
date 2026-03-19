@@ -1,26 +1,25 @@
-<div class="data-card">
+<div class="data-card" [class]="getStatusEmployee()">
   @if (title) {
-    <div class="data-card-header">
-      <h3 class="data-card-title">{{ title }}</h3>
-      <div class="data-card-actions">
-        <ng-content select="[actions]"></ng-content>
-      </div>
+  <div class="data-card-header">
+    <h3 class="data-card-title">{{ title.toLowerCase() }}</h3>
+    <div class="data-card-actions">
+      <ng-content select="[actions]"></ng-content>
     </div>
+  </div>
   }
-  
+
   <div class="data-card-body">
     @for (item of items; track item.label) {
-      <div class="data-card-item">
-        <span class="data-card-label">{{ item.label }}</span>
-        <span class="data-card-value">{{ item.value || '-' }}</span>
-      </div>
+    <div class="data-card-item">
+      <span class="data-card-label">{{ item.label }}</span>
+      <span class="data-card-value">{{ item.value }}</span>
+    </div>
     }
   </div>
 
   @if (!title) {
-    <div class="data-card-footer">
-      <ng-content select="[actions]"></ng-content>
-    </div>
+  <div class="data-card-footer">
+    <ng-content select="[actions]"></ng-content>
+  </div>
   }
 </div>
-

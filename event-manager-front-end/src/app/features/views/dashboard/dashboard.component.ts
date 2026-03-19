@@ -6,7 +6,7 @@ import { IResponseDashboard } from '../../../core/interface/dashboard.interface'
 import { ApiService } from '../../services/api.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ToastService } from '../../../core/services/toast.service';
-import { DashboardComponent } from '../../../core/components/dashboard/dashboard.component';
+import { DashboardCardComponent } from '../../../core/components/dashboard-card/dashboard-card.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FormFieldEnum } from '../../../core/enums/formFieldEnum';
 import { FormGroupArray } from '../../../core/interface/form.interface';
@@ -20,13 +20,13 @@ import { FormComponent } from '../../../core/components/form-group/form/form.com
     MatIconModule,
     MatButtonModule,
     MatPaginatorModule,
-    DashboardComponent,
+    DashboardCardComponent,
     FormComponent
   ],
-  templateUrl: './dashboard-week.component.html',
-  styleUrl: './dashboard-week.component.scss'
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
-export class DashboardWeekComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   public listDashboard: IResponseDashboard[] = [];
   public page = 0;
   public pageSize = 3;

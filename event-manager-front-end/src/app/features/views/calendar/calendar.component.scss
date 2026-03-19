@@ -1,33 +1,13 @@
-.main-content {
-  padding: 32px;
-}
+/* ===================================================
+   Página Principal
+=================================================== */
+.cal-page {
+  padding: 24px 32px;
+  max-width: 900px;
+  margin: 0 auto;
 
-.calendar-container {
-  padding: 20px;
-  overflow-x: auto;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.header-calendar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 15px;
-
-  h3 {
-    margin: 0;
-    text-transform: capitalize;
-  }
-
-  .col-md-4 {
-    flex: 1;
-    min-width: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  @media (max-width: 768px) {
+    padding: 16px;
   }
 }
 
@@ -35,83 +15,183 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
 
   .page-title {
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--text-color);
     margin: 0;
   }
 
   button {
-    max-width: 20vw;
-  }
-}
-
-.btn-group {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-
-  button {
-    padding: 8px 16px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #f8f9fa;
-    border-radius: 4px;
     white-space: nowrap;
+  }
 
-    &.active {
-      background-color: #007bff;
-      color: white;
-      border-color: #007bff;
-    }
-
-    &:hover:not(.active) {
-      background-color: #e2e6ea;
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 20px;
     }
   }
 }
 
-.disabled {
-  pointer-events: none;
-  opacity: 0.6;
-}
+/* ===================================================
+   Mini Calendário
+=================================================== */
+.mini-calendar {
+  background-color: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 32px;
 
-// Ajustes para o calendário não quebrar
-::ng-deep {
-
-  .cal-month-view,
-  .cal-week-view,
-  .cal-day-view {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .cal-month-view .cal-days {
-    border: 1px solid #e1e1e1;
-  }
-
-  .cal-month-view .cal-day-cell {
-    min-height: 80px;
+  @media (max-width: 768px) {
+    padding: 16px;
+    margin-bottom: 24px;
   }
 }
 
-@media (max-width: 768px) {
-  .calendar-container {
-    padding: 10px;
+/* Navegação de mês */
+.mini-calendar__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.mini-calendar__month-label {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-color);
+  text-transform: capitalize;
+}
+
+.mini-calendar__arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 28px;
+  color: var(--primary-color);
+  line-height: 1;
+  padding: 4px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(78, 205, 196, 0.12);
+  }
+}
+
+/* Botão Hoje */
+.mini-calendar__today-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.mini-calendar__today-btn {
+  font-size: 13px !important;
+  padding: 6px 18px !important;
+}
+
+/* Grade */
+.mini-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+/* Cabeçalho dias da semana */
+.mini-calendar__weekdays {
+  margin-bottom: 6px;
+}
+
+.mini-calendar__weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-medium);
+  padding: 6px 0;
+  text-transform: uppercase;
+}
+
+/* Células de dia */
+.mini-calendar__day {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  line-height: 1;
+  padding: 0;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(78, 205, 196, 0.15);
+    color: var(--primary-color);
   }
 
-  .header-calendar {
-    flex-direction: column;
+  &.is-empty {
+    cursor: default;
+  }
 
-    .col-md-4 {
-      width: 100%;
+  &.is-today:not(.is-selected) {
+    font-weight: 700;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+  }
+
+  &.is-selected {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: 700;
+
+    .mini-calendar__dot {
+      background-color: var(--white);
     }
   }
+}
 
-  .btn-group button {
-    font-size: 14px;
-    padding: 6px 12px;
-  }
+/* Ponto indicador de evento */
+.mini-calendar__dot {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  position: absolute;
+  bottom: 5px;
+}
+
+/* ===================================================
+   Seção de Eventos do Dia
+=================================================== */
+.events-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.events-section__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 4px 0;
+  text-transform: capitalize;
+}
+
+.events-section__list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }

@@ -24,7 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { OptionsService } from '../../services/options.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalUpdateGarcomComponent } from '../../../core/components/modais/modal-update-garcom/modal-update-garcom.component';
+import { ModalUpdateEmployeeComponent } from '../../../core/components/modais/modal-update-employee/modal-update-employee.component';
 import ModalUpdateMaterialComponent from '../../../core/components/modais/modal-update-material/modal-update-material.component';
 import { MaskEnum } from '../../../core/enums/maskEnum';
 import { MatMenuModule } from '@angular/material/menu';
@@ -254,7 +254,7 @@ export class EventComponentsComponent implements OnInit {
   }
 
   public editEmployee(id: number) {
-    const dialogRef = this._dialog.open(ModalUpdateGarcomComponent, {
+    const dialogRef = this._dialog.open(ModalUpdateEmployeeComponent, {
       width: '90vw',
       maxWidth: '600px',
       data: {

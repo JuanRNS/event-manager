@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { IResponseParty } from '../../../core/interface/party.interface';
-import { ModalAddGarcomComponent } from '../../../core/components/modais/modal-add-garcom/modal-add-garcom.component';
+import { ModalAddEmployeeComponent } from '../../../core/components/modais/modal-add-employee/modal-add-employee.component';
 import { ModalViewPartyComponent } from '../../../core/components/modais/modal-view-party/modal-view-party.component';
 import { ApiService } from '../../services/api.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -25,9 +25,18 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-party-all-list',
   standalone: true,
-  imports: [MatPaginatorModule, MatIconModule, MatButtonModule, MatMenuModule, FormsModule, FormComponent, DataCardComponent, CommonModule],
-  templateUrl: './party-all-list.component.html',
-  styleUrl: './party-all-list.component.scss',
+  imports: [
+    MatPaginatorModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    FormsModule,
+    FormComponent,
+    DataCardComponent,
+    CommonModule,
+  ],
+  templateUrl: './party.component.html',
+  styleUrl: './party.component.scss',
 })
 export class PartyAllListComponent implements OnInit {
   public listParty: IResponseParty[] = [];
@@ -155,7 +164,7 @@ export class PartyAllListComponent implements OnInit {
   }
 
   public addGarcons(id: number) {
-    this._dialog.open(ModalAddGarcomComponent, {
+    this._dialog.open(ModalAddEmployeeComponent, {
       width: '90vw',
       maxWidth: '600px',
       data: { id: id },

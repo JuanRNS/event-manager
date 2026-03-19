@@ -1,63 +1,85 @@
-<div class="main-content">
+<div class="cal-page">
 
+  <!-- Page Header -->
   <div class="page-header">
     <h1 class="page-title">Agenda de Eventos</h1>
-    <button class="btn btn-primary" (click)="back()">Retornar para página inicial</button>
+    <button class="btn btn-primary" (click)="back()">Voltar ao Dashboard</button>
   </div>
 
-  <div class="calendar-container">
+  <!-- Mini Calendário -->
+  <div class="mini-calendar">
 
-    <div class="header-calendar">
-
-      <div class="header-nav btn-group">
-        <button class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate">
-          Anterior
-        </button>
-        <button class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
-          Hoje
-        </button>
-        <button class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate">
-          Próximo
-        </button>
-      </div>
-
-      <h3 class="header-title">
-        {{ viewDate | calendarDate:(view + 'ViewTitle'):'pt-BR' }}
-      </h3>
-
-      <div class="header-views btn-group">
-        <button class="btn btn-primary" (click)="setView(CalendarView.Month)"
-          [class.active]="view === CalendarView.Month">
-          Mês
-        </button>
-        <button class="btn btn-primary" (click)="setView(CalendarView.Week)"
-          [class.active]="view === CalendarView.Week">
-          Semana
-        </button>
-        <button class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
-          Dia
-        </button>
-      </div>
+    <!-- Navegação de Mês -->
+    <div class="mini-calendar__nav">
+      <button class="mini-calendar__arrow" (click)="previousMonth()" aria-label="Mês anterior">
+        &#8249;
+      </button>
+      <span class="mini-calendar__month-label">
+        {{ MONTHS[currentMonth().getMonth()] }} {{ currentMonth().getFullYear() }}
+      </span>
+      <button class="mini-calendar__arrow" (click)="nextMonth()" aria-label="Próximo mês">
+        &#8250;
+      </button>
     </div>
 
-    <br />
+    <!-- Botão Hoje -->
+    <div class="mini-calendar__today-row">
+      <button class="btn btn-outline mini-calendar__today-btn" (click)="goToToday()">Hoje</button>
+    </div>
 
-    <div class="calendar-body">
-      @switch(view){
-      @case (CalendarView.Month) {
-      <mwl-calendar-month-view [viewDate]="viewDate" [events]="events">
-      </mwl-calendar-month-view>
-      }
-      @case (CalendarView.Week) {
-      <mwl-calendar-week-view [viewDate]="viewDate" [events]="events">
-      </mwl-calendar-week-view>
-      }
-      @case (CalendarView.Day) {
-      <mwl-calendar-day-view [viewDate]="viewDate" [events]="events">
-      </mwl-calendar-day-view>
-      }
+    <!-- Cabeçalho dos Dias da Semana -->
+    <div class="mini-calendar__grid mini-calendar__weekdays">
+      @for (day of WEEKDAYS; track day) {
+        <span class="mini-calendar__weekday">{{ day }}</span>
       }
     </div>
+
+    <!-- Dias do Mês -->
+    <div class="mini-calendar__grid mini-calendar__days">
+      @for (day of calendarDays(); track $index) {
+        <button
+          class="mini-calendar__day"
+          [class.is-empty]="!day"
+          [class.is-today]="isToday(day)"
+          [class.is-selected]="isSelected(day)"
+          [class.has-event]="hasEvent(day)"
+          (click)="selectDay(day)"
+          [disabled]="!day"
+          [attr.aria-label]="day ? (day | date: 'dd/MM/yyyy') : ''"
+        >
+          @if (day) {
+            {{ day.getDate() }}
+            @if (hasEvent(day)) {
+              <span class="mini-calendar__dot"></span>
+            }
+          }
+        </button>
+      }
+    </div>
+
+  </div>
+
+  <!-- Eventos do Dia Selecionado -->
+  <div class="events-section">
+    <h2 class="events-section__title">
+      Eventos de {{ selectedDate() | date: "dd 'de' MMMM 'de' yyyy" : '' : 'pt-BR' }}
+    </h2>
+
+    @if (eventsOfSelectedDay().length === 0) {
+      <div class="empty-state">
+        Nenhum evento para este dia.
+      </div>
+    } @else {
+      <div class="events-section__list">
+        @for (event of eventsOfSelectedDay(); track event.id) {
+          <app-event-day-card
+            [event]="event"
+            (viewDetails)="onViewDetails($event)"
+            (editEvent)="onEditEvent($event)"
+          />
+        }
+      </div>
+    }
   </div>
 
 </div>
