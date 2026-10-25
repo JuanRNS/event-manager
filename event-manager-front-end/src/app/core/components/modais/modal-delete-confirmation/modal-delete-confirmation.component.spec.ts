@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { ModalDeleteConfirmationComponent } from './modal-delete-confirmation.component';
 
@@ -8,10 +9,13 @@ describe('ModalDeleteConfirmationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalDeleteConfirmationComponent]
+      imports: [ModalDeleteConfirmationComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: jasmine.createSpyObj<MatDialogRef<ModalDeleteConfirmationComponent>>('MatDialogRef', ['close']) },
+      ]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ModalDeleteConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

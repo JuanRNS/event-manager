@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { ModalPixTelConfirmationComponent } from './modal-pix-tel-confirmation.component';
 
@@ -8,10 +9,13 @@ describe('ModalPixTelConfirmationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalPixTelConfirmationComponent]
+      imports: [ModalPixTelConfirmationComponent],
+      providers: [
+        { provide: MatDialogRef, useValue: jasmine.createSpyObj<MatDialogRef<ModalPixTelConfirmationComponent>>('MatDialogRef', ['close']) },
+      ]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ModalPixTelConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

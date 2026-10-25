@@ -14,6 +14,16 @@ describe('CardCalendarComponent', () => {
 
     fixture = TestBed.createComponent(CardCalendarComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('party', {
+      location: 'Salão',
+      nameClient: 'Cliente',
+      date: '2026-10-25',
+      hourStart: '18:00',
+      hourEnd: '23:00',
+      valuePerDay: 100,
+      status: 'AGENDADA',
+      numberOfPeople: 50,
+    });
     fixture.detectChanges();
   });
 
