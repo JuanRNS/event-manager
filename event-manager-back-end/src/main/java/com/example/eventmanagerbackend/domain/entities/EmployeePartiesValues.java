@@ -1,5 +1,6 @@
 package com.example.eventmanagerbackend.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class EmployeePartiesValues {
 
     @ManyToOne
     @JoinColumn(name = "party_id")
+    @JsonIgnore
     private Party party;
 
     @Column(nullable = false)

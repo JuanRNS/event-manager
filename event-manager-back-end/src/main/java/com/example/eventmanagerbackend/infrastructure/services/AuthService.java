@@ -1,74 +1,76 @@
-// infrastructure/services/AuthService.java
 package com.example.eventmanagerbackend.infrastructure.services;
 
 import com.example.eventmanagerbackend.domain.dtos.GoogleTokenDTO;
 import com.example.eventmanagerbackend.domain.entities.User;
+import com.example.eventmanagerbackend.infrastructure.exceptions.InvalidGoogleTokenException;
 import com.example.eventmanagerbackend.infrastructure.repositories.UserRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.Optional;
+import java.security.SecureRandom;
+import java.text.Normalizer;
+import java.util.Base64;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    @Value("${google.client.id}")
-    private String googleClientId;
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final GoogleIdTokenVerifier googleIdTokenVerifier;
 
     public String authenticateOrRegisterGoogleUser(GoogleTokenDTO tokenDTO)
             throws GeneralSecurityException, IOException {
-        GoogleIdToken idToken = verifyGoogleToken(tokenDTO.token());
-
+        GoogleIdToken idToken = googleIdTokenVerifier.verify(tokenDTO.token());
         if (idToken == null) {
-            throw new RuntimeException("Token do Google inválido ou expirado.");
+            throw new InvalidGoogleTokenException();
         }
 
         GoogleIdToken.Payload payload = idToken.getPayload();
         String email = payload.getEmail();
-        String name = (String) payload.get("name");
-
-        Optional<User> existingUser = userRepository.findByEmail(email);
-
-        if (existingUser.isPresent()) {
-            return jwtService.generateToken(existingUser.get());
-        } else {
-            User newUser = registerGoogleUser(email, name);
-            return jwtService.generateToken(newUser);
+        if (email == null || !Boolean.TRUE.equals(payload.getEmailVerified())) {
+            throw new InvalidGoogleTokenException();
         }
+
+        User user = userRepository.findByEmail(email).orElseGet(() -> registerGoogleUser(email));
+        return jwtService.generateToken(user);
     }
 
-    private GoogleIdToken verifyGoogleToken(String idTokenString) throws GeneralSecurityException, IOException {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList(googleClientId))
-                .build();
-
-        return verifier.verify(idTokenString);
-    }
-
-    private User registerGoogleUser(String email, String name) {
+    private User registerGoogleUser(String email) {
         User newUser = new User();
-
-        String userName = name.replaceAll("\\s+", "").toLowerCase();
-
-        newUser.setPassword(passwordEncoder.encode("GOOGLE_SSO_PASSWORD_PLACEHOLDER"));
-
         newUser.setEmail(email);
-        newUser.setUserName(userName);
-
+        newUser.setUserName(uniqueUserName(email));
+        newUser.setPassword(passwordEncoder.encode(randomPassword()));
         return userRepository.save(newUser);
+    }
+
+    private String uniqueUserName(String email) {
+        String base = Normalizer.normalize(email.substring(0, email.indexOf('@')), Normalizer.Form.NFD)
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("[^a-z0-9]", "")
+                .replaceFirst("^[0-9]+", "");
+        if (base.isEmpty()) {
+            base = "user";
+        }
+        String candidate = base;
+        for (int suffix = 1; userRepository.findByUserName(candidate).isPresent(); suffix++) {
+            candidate = base + suffix;
+        }
+        return candidate;
+    }
+
+    private static String randomPassword() {
+        byte[] bytes = new byte[32];
+        RANDOM.nextBytes(bytes);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 }

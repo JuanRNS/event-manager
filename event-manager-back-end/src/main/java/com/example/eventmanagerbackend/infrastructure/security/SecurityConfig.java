@@ -1,6 +1,9 @@
 package com.example.eventmanagerbackend.infrastructure.security;
 
 import com.example.eventmanagerbackend.infrastructure.config.CorsConfig;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -23,6 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -65,6 +69,13 @@ public class SecurityConfig {
     @Bean
     public JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(publicKey).build();
+    }
+
+    @Bean
+    public GoogleIdTokenVerifier googleIdTokenVerifier(@Value("${google.client.id}") String googleClientId) {
+        return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance())
+                .setAudience(List.of(googleClientId))
+                .build();
     }
 
     @Bean

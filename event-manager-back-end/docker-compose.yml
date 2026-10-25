@@ -7,9 +7,9 @@ services:
     environment:
       POSTGRES_DB: event_db
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: 123456789
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

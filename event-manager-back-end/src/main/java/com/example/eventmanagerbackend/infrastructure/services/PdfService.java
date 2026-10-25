@@ -27,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -85,14 +86,11 @@ public class PdfService {
 
     private PdfRequestDashboardDTO dashboardDTO(Long id, LocalDate fromDate, LocalDate toDate) {
         EmployeePartyResponseDTO employee = employeeService.getEmployeePartyByIdEmployee(id);
-        List<Party> parties = employee.employeeParties();
-        if (fromDate != null && toDate != null) {
-            parties.removeIf(party -> !verifyFromDateAndToDate(party.getDate(), fromDate, toDate));
-        }else{
-            parties.removeIf(party -> !DateUtils.initialWeek(party.getDate()));
-        }
+        Predicate<Party> inRange = fromDate != null && toDate != null
+                ? party -> verifyFromDateAndToDate(party.getDate(), fromDate, toDate)
+                : party -> DateUtils.initialWeek(party.getDate());
 
-        List<PdfRequestDashboardFestaDTO> partyDTO = parties.stream().map(p ->
+        List<PdfRequestDashboardFestaDTO> partyDTO = employee.employeeParties().stream().filter(inRange).map(p ->
                 new PdfRequestDashboardFestaDTO(
                         p.getNameClient(),
                         p.getLocation(),

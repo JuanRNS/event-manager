@@ -40,18 +40,17 @@ public class EmployeeTypeService {
     }
 
     public void deleteEmployeeType(Long id) {
-        employeeTypeRepository.deleteById(id);
+        employeeTypeRepository.delete(getEmployeeTypeById(id));
     }
 
     public void updateEmployeeType(Long id, EmployeeTypeRequestDTO employeeTypeRequestDTO) {
-        EmployeeType employeeType = employeeTypeRepository.findById(id)
-                .orElseThrow(EmployeeTypeNotFoundException::new);
+        EmployeeType employeeType = getEmployeeTypeById(id);
         employeeType.setType(employeeTypeRequestDTO.type());
         employeeTypeRepository.save(employeeType);
     }
 
     public EmployeeType getEmployeeTypeById(Long id) {
-        return employeeTypeRepository.findById(id)
+        return employeeTypeRepository.findByIdAndUser(id, userService.getCurrentUser())
                 .orElseThrow(EmployeeTypeNotFoundException::new);
     }
 }

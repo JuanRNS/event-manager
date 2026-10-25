@@ -2,13 +2,14 @@ package com.example.eventmanagerbackend.infrastructure.controllers;
 
 import com.example.eventmanagerbackend.domain.dtos.UserLoginRequestDTO;
 import com.example.eventmanagerbackend.domain.dtos.UserRequestDTO;
+import com.example.eventmanagerbackend.domain.dtos.UserResponseDTO;
 import com.example.eventmanagerbackend.domain.entities.User;
 import com.example.eventmanagerbackend.infrastructure.security.AuthenticationService;
 import com.example.eventmanagerbackend.infrastructure.services.UserService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,21 +25,16 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<User> register(@RequestBody UserRequestDTO user) {
+    public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid UserRequestDTO user) {
         User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new UserResponseDTO(createdUser.getId(), createdUser.getUserName(), createdUser.getEmail()));
     }
 
     @PostMapping("login")
-    public String login(@RequestBody UserLoginRequestDTO user) {
+    public String login(@RequestBody @Valid UserLoginRequestDTO user) {
         return authenticationService.authenticate(user);
     }
-
-    @GetMapping("list")
-    public List<User> getAll() {
-        return userService.findAll();
-    }
-
-
 
 }
