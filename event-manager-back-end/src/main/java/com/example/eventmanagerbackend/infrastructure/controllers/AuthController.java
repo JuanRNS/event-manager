@@ -3,6 +3,7 @@ package com.example.eventmanagerbackend.infrastructure.controllers;
 import com.example.eventmanagerbackend.domain.dtos.GoogleTokenDTO;
 import com.example.eventmanagerbackend.infrastructure.exceptions.InvalidGoogleTokenException;
 import com.example.eventmanagerbackend.infrastructure.services.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/google")
-    public ResponseEntity<String> googleLogin(@RequestBody GoogleTokenDTO tokenDTO) {
+    public ResponseEntity<String> googleLogin(@RequestBody @Valid GoogleTokenDTO tokenDTO) {
         try {
             String jwt = authService.authenticateOrRegisterGoogleUser(tokenDTO);
             return ResponseEntity.ok(jwt);

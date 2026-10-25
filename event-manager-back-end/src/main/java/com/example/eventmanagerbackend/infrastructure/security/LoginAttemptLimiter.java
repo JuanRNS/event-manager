@@ -15,6 +15,7 @@ public class LoginAttemptLimiter {
     static final int MAX_FAILURES = 5;
     static final Duration WINDOW = Duration.ofMinutes(15);
     // shortcut: an attacker filling the cap blocks new usernames for one window, upgrade to a per-IP or shared-store limiter
+    // shortcut: the per-username limit lets anyone lock a known user out of password login, upgrade by keying on username+IP
     static final int MAX_TRACKED = 100_000;
 
     private record Attempts(int count, Instant windowStart) {
