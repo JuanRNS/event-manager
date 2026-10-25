@@ -35,3 +35,5 @@ Instructions for any reviewer of this repository — human or agent. Keep it sho
 ## Recurring rules
 
 <!-- Promote here any comment that shows up in 2+ reviews. One line each, with the date and why. Move it to a lint rule when one can enforce it. -->
+
+- 2026-10-25 — Security counters (rate limiters, lockouts) must check-and-increment atomically, and in-memory maps keyed by request input need a hard size cap: the first login limiter allowed ~200 guesses under concurrency and unbounded growth.

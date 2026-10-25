@@ -6,7 +6,6 @@ import com.example.eventmanagerbackend.infrastructure.services.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,46 +16,38 @@ class AuthenticationServiceTest {
 
     private final JwtService jwtService = mock(JwtService.class);
     private final AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+    private final LoginAttemptLimiter limiter = mock(LoginAttemptLimiter.class);
     private final AuthenticationService service =
-            new AuthenticationService(jwtService, authenticationManager, new LoginAttemptLimiter());
+            new AuthenticationService(jwtService, authenticationManager, limiter);
 
-    private final UserLoginRequestDTO wrong = new UserLoginRequestDTO("ana", "wrong");
-    private final UserLoginRequestDTO right = new UserLoginRequestDTO("ana", "right");
+    private final UserLoginRequestDTO login = new UserLoginRequestDTO("ana", "secret");
 
     @Test
-    void blocksAfterMaxFailuresWithoutCheckingCredentials() {
-        failWrongPassword();
-        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES; i++) {
-            assertThrows(BadCredentialsException.class, () -> service.authenticate(wrong));
-        }
+    void blockedThrowsWithoutCheckingCredentials() {
+        when(limiter.tryAcquire("ana")).thenReturn(false);
 
-        assertThrows(TooManyLoginAttemptsException.class, () -> service.authenticate(right));
-        verify(authenticationManager, times(LoginAttemptLimiter.MAX_FAILURES)).authenticate(any());
+        assertThrows(TooManyLoginAttemptsException.class, () -> service.authenticate(login));
+        verifyNoInteractions(authenticationManager);
+        verify(limiter, never()).reset(any());
     }
 
     @Test
-    void successResetsFailures() {
-        failWrongPassword();
-        when(jwtService.generateToken(any(Authentication.class))).thenReturn("jwt");
-        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES - 1; i++) {
-            assertThrows(BadCredentialsException.class, () -> service.authenticate(wrong));
-        }
+    void failurePropagates() {
+        when(limiter.tryAcquire("ana")).thenReturn(true);
+        when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("bad"));
 
-        assertEquals("jwt", service.authenticate(right));
-
-        for (int i = 0; i < LoginAttemptLimiter.MAX_FAILURES - 1; i++) {
-            assertThrows(BadCredentialsException.class, () -> service.authenticate(wrong));
-        }
-        assertEquals("jwt", service.authenticate(right));
+        assertThrows(BadCredentialsException.class, () -> service.authenticate(login));
+        verify(limiter, never()).reset(any());
     }
 
-    private void failWrongPassword() {
-        when(authenticationManager.authenticate(any())).thenAnswer(inv -> {
-            UsernamePasswordAuthenticationToken token = inv.getArgument(0);
-            if ("right".equals(token.getCredentials())) {
-                return token;
-            }
-            throw new BadCredentialsException("bad");
-        });
+    @Test
+    void successResetsAndReturnsToken() {
+        Authentication authentication = mock(Authentication.class);
+        when(limiter.tryAcquire("ana")).thenReturn(true);
+        when(authenticationManager.authenticate(any())).thenReturn(authentication);
+        when(jwtService.generateToken(authentication)).thenReturn("jwt");
+
+        assertEquals("jwt", service.authenticate(login));
+        verify(limiter).reset("ana");
     }
 }

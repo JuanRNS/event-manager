@@ -14,34 +14,45 @@ public class LoginAttemptLimiter {
 
     static final int MAX_FAILURES = 5;
     static final Duration WINDOW = Duration.ofMinutes(15);
-    private static final int PURGE_THRESHOLD = 10_000;
+    // shortcut: an attacker filling the cap blocks new usernames for one window, upgrade to a per-IP or shared-store limiter
+    static final int MAX_TRACKED = 100_000;
 
-    private record Attempts(int failures, Instant windowStart) {
+    private record Attempts(int count, Instant windowStart) {
     }
 
     private final Map<String, Attempts> attempts = new ConcurrentHashMap<>();
     private final Clock clock;
+    private final int maxTracked;
 
     public LoginAttemptLimiter() {
-        this(Clock.systemUTC());
+        this(Clock.systemUTC(), MAX_TRACKED);
     }
 
-    LoginAttemptLimiter(Clock clock) {
+    LoginAttemptLimiter(Clock clock, int maxTracked) {
         this.clock = clock;
+        this.maxTracked = maxTracked;
     }
 
-    public boolean isBlocked(String username) {
-        Attempts current = attempts.get(username);
-        return current != null && !isExpired(current) && current.failures() >= MAX_FAILURES;
-    }
-
-    public void recordFailure(String username) {
-        if (attempts.size() > PURGE_THRESHOLD) {
+    public boolean tryAcquire(String username) {
+        if (attempts.size() >= maxTracked) {
             attempts.values().removeIf(this::isExpired);
         }
-        attempts.compute(username, (key, current) -> current == null || isExpired(current)
-                ? new Attempts(1, clock.instant())
-                : new Attempts(current.failures() + 1, current.windowStart()));
+        boolean[] allowed = {false};
+        attempts.compute(username, (key, current) -> {
+            if (current == null && attempts.size() >= maxTracked) {
+                return null;
+            }
+            if (current == null || isExpired(current)) {
+                allowed[0] = true;
+                return new Attempts(1, clock.instant());
+            }
+            if (current.count() >= MAX_FAILURES) {
+                return current;
+            }
+            allowed[0] = true;
+            return new Attempts(current.count() + 1, current.windowStart());
+        });
+        return allowed[0];
     }
 
     public void reset(String username) {
