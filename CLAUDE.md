@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Event/party management system (festas, garçons, materiais, pagamentos). Monorepo with two independent apps, no root build:
 
-- `event-manager-back-end/` — Spring Boot 3.5 / Java 17 / Maven (wrapper), PostgreSQL. Containerized via its `Dockerfile` (not currently deployed; the image needs `JWT_PRIVATE_KEY`/`JWT_PUBLIC_KEY` at runtime).
-- `event-manager-front-end/` — Angular 21 standalone components, Angular Material, `angular-calendar`, Karma/Jasmine. Deployed on Vercel (`vercel.json`, SPA rewrite to `index.html`).
+- `event-manager-back-end/` — Spring Boot 3.5 / Java 17 / Maven (wrapper), PostgreSQL. Containerized via its `Dockerfile` (not currently deployed; the image needs `JWT_PRIVATE_KEY`/`JWT_PUBLIC_KEY` at runtime). `application.properties` is the base config; the `prod` profile (`application-prod.properties`) reads the keys from `PRIVATE_PEM`/`PUBLIC_PEM` instead and turns on Spring Security DEBUG logging. A local `application-dev.properties` is gitignored.
+- `event-manager-front-end/` — Angular 21 standalone components, Angular Material, `angular-calendar`, Karma/Jasmine, PWA service worker. Not currently deployed (`vercel.json` with the SPA rewrite to `index.html` is left over from Vercel).
 
 Domain language in UI, DTO names and messages is Portuguese (garçom = employee/waiter, festa = party, AGENDADA/REALIZADA statuses).
 
@@ -62,10 +62,10 @@ Key cross-cutting behaviour:
 
 - `app.routes.ts` — routes; everything except `login`/`register` is lazy-loaded and protected by `authGuard`.
 - `core/` — shared, feature-agnostic code: reusable components (`form-group` dynamic form/input/select, `sidebar`, `modais/*` dialogs opened via `MatDialog` with sizes from `core/config/modal.config.ts`, `toast` via `ToastService`), `interface/` (request/response types, `IRequest*` / `IResponse*`), `enums`, `directives` (input masks), `guards`, `utils`.
-- `features/views/` — page components (dashboard-week, dashboard-date, party-registration, party-all-list, event-components, calendar, login, register).
+- `features/views/` — page components (dashboard, party, party-registration, provider-parties, event-components, calendar, login, register).
 - `features/services/` — HTTP services. They extend `core/abstract/http.abstract.ts` (`HttpServiceAbstract`), which prefixes `environment.api`, sets JSON headers and attaches `Authorization: Bearer` from `localStorage['token']`. There is no HTTP interceptor — new API calls go through a service extending this class (most live in `ApiService`).
 - Auth state is only the JWT in `localStorage`; `UserService.isLogged()` decodes it client-side and checks `exp`.
 
-`environment.prod.ts` points `api` at a decommissioned Railway URL and there are no `fileReplacements` in `angular.json`, so every build (including `npm run build`) uses `environment.ts`. Point `environment.ts` at a local back-end to develop (path prefix `/api/`), but don't commit a localhost URL there. CORS origins are set in `infrastructure/config/CorsConfig.java`.
+`environment.ts` (dev, `npm start`) points at `http://localhost:8080/api/`. The `production` configuration (`npm run build`) swaps in `environment.prod.ts` through `fileReplacements`, and that file points at a decommissioned Railway URL. CORS origins are set in `infrastructure/config/CorsConfig.java`.
 
 `event-manager-front-end/README.md` is largely outdated boilerplate (mentions mock data, `ng build --prod`, ESLint) — trust the code over it.
