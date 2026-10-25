@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalUpdateMaterialComponent } from './modal-update-material.component';
+import ModalUpdateMaterialComponent from './modal-update-material.component';
 
 describe('ModalUpdateMaterialComponent', () => {
   let component: ModalUpdateMaterialComponent;

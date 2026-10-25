@@ -3,6 +3,7 @@ package com.example.eventmanagerbackend.infrastructure.services;
 import com.example.eventmanagerbackend.domain.dtos.*;
 import com.example.eventmanagerbackend.domain.entities.*;
 import com.example.eventmanagerbackend.domain.enums.StatusEmployee;
+import com.example.eventmanagerbackend.infrastructure.exceptions.EmployeeNotFoundException;
 import com.example.eventmanagerbackend.infrastructure.exceptions.PartyNotFoundException;
 import com.example.eventmanagerbackend.infrastructure.mappers.EmployeeMapper;
 import com.example.eventmanagerbackend.infrastructure.repositories.EmployeeRepository;
@@ -44,8 +45,7 @@ public class EmployeeService {
     }
 
     public void updateEmployee(Long id, EmployeeRequestUpdateDTO dto) {
-        User user = userService.getCurrentUser();
-        Employee employee = employeeRepository.findByIdAndUser(id, user);
+        Employee employee = getOwnedEmployee(id);
 
         employeeMapper.updateEmployeeFromDTO(dto, employee);
 
@@ -58,8 +58,7 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Long id) {
-        User user = userService.getCurrentUser();
-        Employee employee = employeeRepository.findByIdAndUser(id, user);
+        Employee employee = getOwnedEmployee(id);
 
         List<Party> parties = new ArrayList<>(employee.getEmployeeParties());
         for (Party party : parties) {
@@ -78,8 +77,7 @@ public class EmployeeService {
     }
 
     public EmployeeIdResponseDTO getEmployeeById(Long id) {
-        User user = userService.getCurrentUser();
-        Employee employee = employeeRepository.findByIdAndUser(id, user);
+        Employee employee = getOwnedEmployee(id);
         return employeeMapper.toEmployeeIdResponseDTO(employee);
     }
 
@@ -101,8 +99,7 @@ public class EmployeeService {
 
 
     public EmployeePartyResponseDTO getEmployeePartyByIdEmployee(Long id) {
-        User user = userService.getCurrentUser();
-        Employee employee = employeeRepository.findByIdAndUser(id, user);
+        Employee employee = getOwnedEmployee(id);
 
         return new EmployeePartyResponseDTO(
                 employee.getId(),
@@ -116,8 +113,7 @@ public class EmployeeService {
     }
 
     public EmployeePartyDTO getEmployeeParties(Long id) {
-        User user = userService.getCurrentUser();
-        Employee employee = employeeRepository.findByIdAndUser(id, user);
+        Employee employee = getOwnedEmployee(id);
 
         List<PartyByEmployeeIdDTO> partiesDtos = calculatePartiesValuesForEmployee(employee);
 
@@ -144,12 +140,8 @@ public class EmployeeService {
     }
 
     public List<Long> getEmployeeByPartyId(Long id) {
-        Party party = partyRepository.findById(id).orElseThrow(PartyNotFoundException::new);
-        User currentUser = userService.getCurrentUser();
-
-        if (!party.getUser().getId().equals(currentUser.getId())) {
-            throw new RuntimeException("Insufficient privileges to access");
-        }
+        Party party = partyRepository.findByIdAndUser(id, userService.getCurrentUser())
+                .orElseThrow(PartyNotFoundException::new);
 
         return party.getPartyEmployees().stream()
                 .map(Employee::getId)
@@ -164,6 +156,11 @@ public class EmployeeService {
         return Arrays.stream(StatusEmployee.values())
                 .map(status -> new StatusResponseDTO(status.name(), status.name()))
                 .toList();
+    }
+
+    private Employee getOwnedEmployee(Long id) {
+        return employeeRepository.findByIdAndUser(id, userService.getCurrentUser())
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     private List<PartyByEmployeeIdDTO> calculatePartiesValuesForEmployee(Employee employee) {

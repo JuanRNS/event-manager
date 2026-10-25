@@ -1,38 +1,39 @@
 package com.example.eventmanagerbackend.infrastructure.controllers;
 
 import com.example.eventmanagerbackend.infrastructure.exceptions.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(EmailExistsException.class)
-    private ResponseEntity<String> emailExistsException(EmailExistsException e) {
+    @ExceptionHandler({EmailExistsException.class, UserNameExistsException.class})
+    private ResponseEntity<String> conflictException(RuntimeException e) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(e.getMessage());
     }
-    @ExceptionHandler(MaterialNotFoundException.class)
-    private ResponseEntity<String> materialNotFoundException(MaterialNotFoundException material) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(material.getMessage());
-    }
 
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    private ResponseEntity<String> garcomNotFoundException(EmployeeNotFoundException garcom) {
+    @ExceptionHandler({
+            EmployeeNotFoundException.class,
+            EmployeeTypeNotFoundException.class,
+            MaterialNotFoundException.class,
+            PartyNotFoundException.class,
+            UserNotFoundException.class
+    })
+    private ResponseEntity<String> notFoundException(RuntimeException e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(garcom.getMessage());
-    }
-
-    @ExceptionHandler(PartyNotFoundException.class)
-    private ResponseEntity<String> festaNotFoundException(PartyNotFoundException festa) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(festa.getMessage());
+                .body(e.getMessage());
     }
 
     @ExceptionHandler(UserNameStringFirstException.class)
@@ -40,5 +41,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(user.getMessage());
+    }
+
+    @ExceptionHandler(TooManyLoginAttemptsException.class)
+    private ResponseEntity<String> tooManyLoginAttemptsException(TooManyLoginAttemptsException e) {
+        return ResponseEntity
+                .status(HttpStatus.TOO_MANY_REQUESTS)
+                .body(e.getMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining("; "));
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(message);
     }
 }

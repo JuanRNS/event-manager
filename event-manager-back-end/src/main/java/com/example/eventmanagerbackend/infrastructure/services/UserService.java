@@ -10,8 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -31,10 +29,6 @@ public class UserService {
         }
         User createdUser = parseUser(user);
         return userRepository.save(createdUser);
-    }
-
-    public List<User> findAll() {
-        return userRepository.findAll();
     }
 
     public User getCurrentUser() {

@@ -29,14 +29,13 @@ public class MaterialService {
     }
 
     public MaterialResponseDTO getMaterialDTOById(Long id) {
-        User user = userService.getCurrentUser();
-        Material material = materialRepository.findByIdAndUser(id, user);
-        return materialMapper.toMaterialResponseDTO(material);
+        return materialMapper.toMaterialResponseDTO(getMaterialById(id));
     }
 
     public Material getMaterialById(Long id) {
         User user = userService.getCurrentUser();
-        return materialRepository.findByIdAndUser(id,user);
+        return materialRepository.findByIdAndUser(id, user)
+                .orElseThrow(MaterialNotFoundException::new);
     }
 
     public MaterialResponseDTO createMaterial(MaterialRequestDTO material) {
@@ -52,16 +51,13 @@ public class MaterialService {
     }
 
     public void updateMaterial(Long id, MaterialRequestDTO materialRequest) {
-        Material material = materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
+        Material material = getMaterialById(id);
         material.setDescription(materialRequest.description());
         materialRepository.save(material);
     }
 
     public void deleteMaterial(Long id) {
-        if (!materialRepository.existsById(id)) {
-            throw new MaterialNotFoundException();
-        }
-        materialRepository.deleteById(id);
+        materialRepository.delete(getMaterialById(id));
     }
 
 }

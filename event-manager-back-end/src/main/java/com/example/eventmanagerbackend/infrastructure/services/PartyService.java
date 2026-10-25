@@ -40,14 +40,11 @@ public class PartyService {
     }
 
     public PartyResponseDTO getPartyResponseDTOById(Long id) {
-        return partyRepository.findById(id)
-                .map(partyMapper::toResponseDTO)
-                .orElseThrow(PartyNotFoundException::new);
+        return partyMapper.toResponseDTO(getOwnedParty(id));
     }
 
     public void updateParty(Long id, PartyUpdateRequestDTO dto) {
-        Party party = partyRepository.findById(id)
-                .orElseThrow(PartyNotFoundException::new);
+        Party party = getOwnedParty(id);
 
         partyMapper.updatePartyFromDTO(dto, party);
 
@@ -62,10 +59,7 @@ public class PartyService {
     }
 
     public void deleteParty(Long id) {
-        if (!partyRepository.existsById(id)) {
-            throw new PartyNotFoundException();
-        }
-        partyRepository.deleteById(id);
+        partyRepository.delete(getOwnedParty(id));
     }
 
     public Page<PartyResponseDTO> getAllPartiesByStatus(Pageable pageable) {
@@ -81,7 +75,7 @@ public class PartyService {
     }
 
     public void createEmployeePartiesValues(Long idParty, EmployeePartiesValuesDTO dto) {
-        Party party = partyRepository.findById(idParty).orElseThrow(PartyNotFoundException::new);
+        Party party = getOwnedParty(idParty);
         EmployeeType employeeType = employeeTypeService.getEmployeeTypeById(dto.idEmployeeType());
 
         EmployeePartiesValues values = new EmployeePartiesValues(employeeType, party, dto.value());
@@ -91,7 +85,7 @@ public class PartyService {
     }
 
     public PartyEmployeeViewDTO getPartyEmployeeById(Long idParty) {
-        Party party = partyRepository.findById(idParty).orElseThrow(PartyNotFoundException::new);
+        Party party = getOwnedParty(idParty);
 
         List<Long> employeeIds = party.getPartyEmployees().stream()
                 .map(Employee::getId)
@@ -115,7 +109,7 @@ public class PartyService {
     }
 
     public void addEmployeeParty(PartyEmployeeAddRequestDTO dto) {
-        Party party = partyRepository.findById(dto.partyId()).orElseThrow(PartyNotFoundException::new);
+        Party party = getOwnedParty(dto.partyId());
 
         List<Employee> employeeList = employeeService.getEmployeeByIds(dto.employeeIds());
 
@@ -143,6 +137,11 @@ public class PartyService {
         return parties.stream()
                 .map(partyMapper::toResponseCalendarDTO)
                 .toList();
+    }
+
+    private Party getOwnedParty(Long id) {
+        return partyRepository.findByIdAndUser(id, userService.getCurrentUser())
+                .orElseThrow(PartyNotFoundException::new);
     }
 
     private void updatePartyValues(Party party, List<EmployeePartiesValuesResponseDTO> valuesDtos) {
